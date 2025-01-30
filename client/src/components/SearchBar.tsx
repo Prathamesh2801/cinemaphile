@@ -1,68 +1,37 @@
 import React, { useState, useEffect, useRef } from "react";
-
-interface Movie {
-  title: string;
-}
-
-const mockMovieData: Movie[] = [
-  { title: "Star Wars: Episode IV - A New Hope" },
-  { title: "Star Wars: Episode V - The Empire Strikes Back" },
-  { title: "Star Wars: Episode VI - Return of the Jedi" },
-  { title: "Star Wars: Episode I - The Phantom Menace" },
-  { title: "Star Wars: Episode II - Attack of the Clones" },
-  { title: "Star Wars: Episode III - Revenge of the Sith" },
-  { title: "Star Wars: Episode VII - The Force Awakens" },
-  { title: "Star Wars: Episode VIII - The Last Jedi" },
-  { title: "Star Wars: Episode IX - The Rise of Skywalker" },
-  { title: "Rogue One: A Star Wars Story" },
-  { title: "Solo: A Star Wars Story" },
-  { title: "The Mandalorian" },
-  { title: "The Book of Boba Fett" },
-  { title: "Obi-Wan Kenobi" },
-  { title: "Andor" },
-  { title: "The Matrix" },
-  { title: "The Matrix Reloaded" },
-  { title: "The Matrix Revolutions" },
-  { title: "John Wick" },
-  { title: "John Wick: Chapter 2" },
-  { title: "John Wick: Chapter 3 – Parabellum" },
-  { title: "John Wick: Chapter 4" },
-  { title: "Interstellar" },
-  { title: "Inception" },
-  { title: "The Dark Knight" },
-  { title: "The Dark Knight Rises" },
-  { title: "Batman Begins" },
-  { title: "Spider-Man" },
-  { title: "Spider-Man 2" },
-  { title: "Spider-Man 3" },
-  { title: "The Avengers" },
-  { title: "Avengers: Age of Ultron" },
-  { title: "Avengers: Infinity War" },
-  { title: "Avengers: Endgame" },
-  { title: "Iron Man" },
-  { title: "Iron Man 2" },
-  { title: "Iron Man 3" },
-  { title: "Captain America: The First Avenger" },
-  { title: "Captain America: The Winter Soldier" },
-  { title: "Captain America: Civil War" },
-];
+import { searchMovies } from "../api/movie.api";
+import { useDebounce } from "../hooks/useDebounce";
+import { MovieSearchResult } from "../api/types/movie";
 
 export const SearchBar: React.FC = () => {
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<Movie[]>(mockMovieData);
+  const [suggestions, setSuggestions] = useState<MovieSearchResult[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const debouncedQuery = useDebounce(query, 300);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const filterSuggestions = () => {
-      const filteredSuggestions = mockMovieData.filter((item) =>
-        item.title.toLowerCase().includes(query.toLowerCase())
-      );
-      setSuggestions(filteredSuggestions);
+    const fetchSuggestions = async () => {
+      if (!debouncedQuery) {
+        setSuggestions([]);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const results = await searchMovies(debouncedQuery);
+        setSuggestions(results);
+      } catch (error) {
+        console.error("Search error:", error);
+        setSuggestions([]);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    filterSuggestions();
-  }, [query]);
+    fetchSuggestions();
+  }, [debouncedQuery]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -75,10 +44,7 @@ export const SearchBar: React.FC = () => {
     };
 
     document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,8 +52,8 @@ export const SearchBar: React.FC = () => {
     setShowSuggestions(true);
   };
 
-  const handleSuggestionClick = (suggestion: Movie) => {
-    setQuery(suggestion.title);
+  const handleSuggestionClick = (suggestion: MovieSearchResult) => {
+    setQuery(suggestion.Title);
     setShowSuggestions(false);
   };
 
@@ -103,6 +69,13 @@ export const SearchBar: React.FC = () => {
           onClick={() => setShowSuggestions(true)}
           ref={inputRef}
         />
+
+        {isLoading && (
+          <div className="absolute right-16 top-1/2 transform -translate-y-1/2">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+          </div>
+        )}
+
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="absolute right-4 top-1/2 h-8 w-8 -translate-y-1/2 transform text-neutral-500"
@@ -119,26 +92,33 @@ export const SearchBar: React.FC = () => {
         </svg>
       </div>
 
-      {showSuggestions && suggestions.length > 0 && (
-        <ul className="font-playfair-display absolute z-10 mt-1 max-h-80 w-full overflow-y-auto rounded-lg bg-neutral-900 text-lg text-neutral-400 shadow-lg">
-          {" "}
-          {suggestions.map((suggestion) => (
-            <li
-              key={suggestion.title}
-              className="cursor-pointer px-6 py-3 hover:bg-neutral-800 hover:text-white"
-              onClick={() => handleSuggestionClick(suggestion)}
-            >
-              {suggestion.title}
-            </li>
-          ))}
+  
+      {showSuggestions && (
+        <ul className="absolute w-full bg-neutral-900 text-neutral-400 rounded-lg shadow-lg mt-1 max-h-80 overflow-y-auto z-10 text-lg font-playfair-display">
+          {isLoading ? (
+            <li className="px-6 py-3 text-white">Searching...</li>
+          ) : suggestions.length > 0 ? (
+            suggestions.map((suggestion) => (
+              <li
+                key={suggestion.imdbID}
+                className="px-6 py-3 hover:bg-neutral-800 cursor-pointer hover:text-white"
+                onClick={() => handleSuggestionClick(suggestion)}
+              >
+                {suggestion.Title} ({suggestion.Year})
+              </li>
+            ))
+          ) : query ? (
+            <li className="px-6 py-3 text-white">No results found</li>
+          ) : (
+            <li className="px-6 py-3 text-white">Start typing to search</li>
+          )}
+
+         
         </ul>
       )}
-      {showSuggestions && suggestions.length === 0 && query.length > 0 && (
-        <div className="absolute mt-1 w-full rounded-b-lg bg-neutral-900 px-6 py-3 text-lg text-white shadow-lg">
-          {" "}
-          No results found.
-        </div>
-      )}
+
+
+     
     </div>
   );
 };
