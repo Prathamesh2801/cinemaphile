@@ -103,6 +103,7 @@ export const SearchBar: React.FC = () => {
                 className="px-6 py-3 hover:bg-neutral-800 cursor-pointer hover:text-white"
                 onClick={() => handleSuggestionClick(suggestion)}
               >
+                <img src={suggestion.Poster} alt="" />
                 {suggestion.Title} ({suggestion.Year})
               </li>
             ))
