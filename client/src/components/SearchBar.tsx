@@ -58,11 +58,11 @@ export const SearchBar: React.FC = () => {
   };
 
   return (
-    <div className="mt-30 relative w-full md:w-[70%] mx-auto">
+    <div className="relative mx-auto mt-40 w-full shadow-xl md:w-[70%]">
       <div className="relative">
         <input
           type="text"
-          className="w-full bg-neutral-900 text-white rounded-lg px-6 py-4 text-lg focus:outline-none shadow-inner appearance-none font-doto"
+          className="font-doto w-full appearance-none rounded-lg bg-neutral-900 px-6 py-4 text-lg text-white shadow-inner focus:outline-none"
           placeholder="Search..."
           value={query}
           onChange={handleInputChange}
@@ -78,7 +78,7 @@ export const SearchBar: React.FC = () => {
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-8 w-8 absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-500"
+          className="absolute right-4 top-1/2 h-8 w-8 -translate-y-1/2 transform text-neutral-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -91,6 +91,7 @@ export const SearchBar: React.FC = () => {
           />
         </svg>
       </div>
+
   
       {showSuggestions && (
         <ul className="absolute w-full bg-neutral-900 text-neutral-400 rounded-lg shadow-lg mt-1 max-h-80 overflow-y-auto z-10 text-lg font-playfair-display">
@@ -116,6 +117,9 @@ export const SearchBar: React.FC = () => {
          
         </ul>
       )}
+
+
+     
     </div>
   );
 };
