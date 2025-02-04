@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { searchMovies } from "../api/movie.api";
 import { useDebounce } from "../hooks/useDebounce";
 import { MovieSearchResult } from "../api/types/movie";
+import { useNavigate } from "react-router-dom";
 
 export const SearchBar: React.FC = () => {
   const [query, setQuery] = useState("");
@@ -10,6 +11,7 @@ export const SearchBar: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const debouncedQuery = useDebounce(query, 300);
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSuggestions = async () => {
@@ -53,8 +55,9 @@ export const SearchBar: React.FC = () => {
   };
 
   const handleSuggestionClick = (suggestion: MovieSearchResult) => {
-    setQuery(suggestion.Title);
     setShowSuggestions(false);
+    setQuery("");
+    navigate(`/details/${suggestion.imdbID}`);
   };
 
   return (
@@ -82,6 +85,7 @@ export const SearchBar: React.FC = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+       
         >
           <path
             strokeLinecap="round"
@@ -92,7 +96,6 @@ export const SearchBar: React.FC = () => {
         </svg>
       </div>
 
-  
       {showSuggestions && (
         <ul className="absolute w-full bg-neutral-900 text-neutral-400 rounded-lg shadow-lg mt-1 max-h-80 overflow-y-auto z-10 text-lg font-playfair-display">
           {isLoading ? (
@@ -101,11 +104,27 @@ export const SearchBar: React.FC = () => {
             suggestions.map((suggestion) => (
               <li
                 key={suggestion.imdbID}
-                className="px-6 py-3 hover:bg-neutral-800 cursor-pointer hover:text-white"
+                className="px-6 py-3 hover:bg-neutral-800 cursor-pointer hover:text-white flex items-center justify-start"
                 onClick={() => handleSuggestionClick(suggestion)}
               >
-                <img src={suggestion.Poster} alt="" />
-                {suggestion.Title} ({suggestion.Year})
+                <img
+                  src={suggestion.Poster}
+                  alt=""
+                  className="w-10 h-14 mr-4 rounded"
+                />
+                <div className="flex flex-col">
+                  <span className="text-sm md:text-xl font-bold">
+                    {suggestion.Title}
+                  </span>
+                  <div className="flex items-center border-b-1 border-neutral-400/20 pb-1">
+                    <span className=" text-neutral-400 text-xs md:text-base mr-2">
+                      {suggestion.Year}
+                    </span>
+                    <span className="text-neutral-500 text-xs md:text-base">
+                      {suggestion.Type}
+                    </span>
+                  </div>
+                </div>
               </li>
             ))
           ) : query ? (
@@ -113,13 +132,8 @@ export const SearchBar: React.FC = () => {
           ) : (
             <li className="px-6 py-3 text-white">Start typing to search</li>
           )}
-
-         
         </ul>
       )}
-
-
-     
     </div>
   );
 };

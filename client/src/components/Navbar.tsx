@@ -17,17 +17,17 @@ export const Navbar = () => {
         </Link>
         <div className="flex items-center gap-0 md:gap-0.5">
           <div className="origin-bottom rounded-xl px-1 py-2 text-neutral-400 transition-all delay-75 duration-300 ease-in-out hover:-translate-y-1 hover:text-white md:p-4">
-            <a href="">
+            <Link to="/login">
               <h1 className="font-doto text-sm md:text-xl">Login</h1>
-            </a>
+            </Link>
           </div>
           <div>
             <h1 className="font-doto text-xl">/</h1>
           </div>
           <div className="origin-bottom rounded-xl px-1 py-2 text-neutral-400 transition-all delay-75 duration-300 ease-in-out hover:-translate-y-1 hover:text-white md:p-4">
-            <a href="">
+            <Link to="/register">
               <h1 className="font-doto text-sm md:text-xl">Signup</h1>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
