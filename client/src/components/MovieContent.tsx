@@ -54,7 +54,6 @@ export default function MovieContent() {
   if (loading) {
     return (
       <>
-        <Navbar />
         <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center">
           <div className="text-xl">Loading...</div>
         </div>
@@ -65,7 +64,6 @@ export default function MovieContent() {
   if (!movieData) {
     return (
       <>
-        <Navbar />
         <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center">
           <div className="text-xl">Movie not found</div>
           <button 
