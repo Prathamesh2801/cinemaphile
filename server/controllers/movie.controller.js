@@ -51,7 +51,8 @@ export const getMovieDetails = async (req, res) => {
     const response = await axios.get(`${process.env.OMDB_BASE_URL}`, {
       params: {
         apikey: process.env.OMDB_API_KEY,
-        i: id
+        i: id,
+        plot: 'full'
       }
     });
     res.json(response.data);

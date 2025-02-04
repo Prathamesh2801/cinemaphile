@@ -1,4 +1,8 @@
 import { Star } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getMovieDetails } from "../api/movie.api";
+import { Navbar } from "./Navbar";
 
 interface MovieProps {
   title: string;
@@ -13,20 +17,92 @@ interface MovieProps {
   imdbRating: string;
 }
 
-export default function MovieContent({
-  title = "Inception",
-  year = "2010",
-  poster = "/placeholder.svg?height=450&width=300",
-  plot = "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-  runtime = "148 min",
-  genre = ["Action", "Adventure", "Sci-Fi"],
-  rating = "PG-13",
-  director = "Christopher Nolan",
-  actors = "Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page",
-  imdbRating = "8.8",
-}: MovieProps) {
+export default function MovieContent() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [movieData, setMovieData] = useState<MovieProps | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMovieDetails = async () => {
+      if (!id) return;
+      try {
+        const details = await getMovieDetails(id);
+        console.log(details)
+        setMovieData({
+          title: details.Title,
+          year: details.Year,
+          poster: details.Poster,
+          plot: details.Plot,
+          runtime: details.Runtime,
+          genre: details.Genre.split(", "),
+          rating: details.Rated,
+          director: details.Director,
+          actors: details.Actors,
+          imdbRating: details.imdbRating
+        });
+      } catch (error) {
+        console.error("Error fetching movie details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovieDetails();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center">
+          <div className="text-xl">Loading...</div>
+        </div>
+      </>
+    );
+  }
+
+  if (!movieData) {
+    return (
+      <>
+        <Navbar />
+        <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center">
+          <div className="text-xl">Movie not found</div>
+          <button 
+            onClick={() => navigate(-1)} 
+            className="bg-emerald-500 px-4 py-2 rounded-lg hover:bg-emerald-600"
+          >
+            Go Back
+          </button>
+        </div>
+      </>
+    );
+  }
+
+  const {
+    title,
+    year,
+    poster,
+    plot,
+    runtime,
+    genre,
+    rating,
+    director,
+    actors,
+    imdbRating
+  } = movieData;
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
+       <button 
+          onClick={() => navigate(-1)}
+          className="mb-6 flex items-center text-white hover:text-emerald-400 transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+          </svg>
+          Go Back
+        </button>
       <div className="container mx-auto px-4 py-8">
         <div className="grid gap-8 md:grid-cols-[300px_1fr] lg:gap-12">
           {/* Poster Section */}
@@ -35,7 +111,7 @@ export default function MovieContent({
               <img
                 src={poster || "/placeholder.svg"}
                 alt={title}
-                className="h-[300px] w-[300px] object-cover"
+                className="w-full h-full object-cover"
                 loading="eager"
               />
             </div>

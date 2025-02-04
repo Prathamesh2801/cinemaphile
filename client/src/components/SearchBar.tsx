@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { searchMovies } from "../api/movie.api";
 import { useDebounce } from "../hooks/useDebounce";
 import { MovieSearchResult } from "../api/types/movie";
+import { useNavigate } from "react-router-dom";
 
 export const SearchBar: React.FC = () => {
   const [query, setQuery] = useState("");
@@ -10,6 +11,7 @@ export const SearchBar: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const debouncedQuery = useDebounce(query, 300);
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSuggestions = async () => {
@@ -53,8 +55,9 @@ export const SearchBar: React.FC = () => {
   };
 
   const handleSuggestionClick = (suggestion: MovieSearchResult) => {
-    setQuery(suggestion.Title);
     setShowSuggestions(false);
+    setQuery("");
+    navigate(`/details/${suggestion.imdbID}`);
   };
 
   return (
@@ -82,6 +85,7 @@ export const SearchBar: React.FC = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+       
         >
           <path
             strokeLinecap="round"

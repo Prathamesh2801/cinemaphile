@@ -30,7 +30,8 @@ export const searchMovies = async (query: string): Promise<MovieSearchResult[]> 
       Title: movie.Title,
       Year: movie.Year,
       Poster: movie.Poster,
-      Type: movie.Type
+      Type: movie.Type,
+      
     }));
   } catch (error) {
     console.error("Search failed:", error);
