@@ -26,19 +26,7 @@ export const Navbar = () => {
           </div> */}
         </div>
       </div>
-      <ul className="font-inter flex gap-4 border-t border-neutral-800 pt-2 text-sm md:gap-8 md:text-base">
-        <li>
-          <NavLink
-            to="/trending"
-            className={({ isActive }) =>
-              `text-neutral-400 hover:text-white transition-colors ${
-                isActive ? "text-white" : ""
-              }`
-            }
-          >
-            Trending
-          </NavLink>
-        </li>
+      <ul className="font-inter flex gap-4 border-t border-neutral-800 pt-4 text-sm md:gap-8 md:text-base">
         <li>
           <NavLink
             to="/browse"
@@ -61,6 +49,18 @@ export const Navbar = () => {
             }
           >
             Reviews
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/trending"
+            className={({ isActive }) =>
+              `text-neutral-400 hover:text-white transition-colors bg-neutral-900 hover:bg-neutral-800 p-2 rounded-lg ${
+                isActive ? "text-white" : ""
+              }`
+            }
+          >
+            Bookmarks
           </NavLink>
         </li>
       </ul>
