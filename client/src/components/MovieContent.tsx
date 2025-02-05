@@ -2,7 +2,7 @@ import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMovieDetails } from "../api/movie.api";
-import { Navbar } from "./Navbar";
+
 
 interface MovieProps {
   title: string;
@@ -28,7 +28,6 @@ export default function MovieContent() {
       if (!id) return;
       try {
         const details = await getMovieDetails(id);
-        console.log(details)
         setMovieData({
           title: details.Title,
           year: details.Year,
