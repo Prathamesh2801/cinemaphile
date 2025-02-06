@@ -47,7 +47,7 @@ export default function MovieContent() {
         setLoading(false);
       }
     };
-
+    
     fetchMovieDetails();
   }, [id]);
 
