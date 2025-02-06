@@ -65,12 +65,13 @@ export const SearchBar: React.FC = () => {
       <div className="relative">
         <input
           type="text"
-          className="font-doto w-full appearance-none rounded-lg bg-neutral-900 px-6 py-4 text-lg text-white shadow-inner focus:outline-none"
+          className="font-doto w-full appearance-none rounded-lg bg-neutral-900 px-6 py-4 text-lg text-white shadow-inner focus:outline-none focus:ring-2 focus:ring-neutral-100/30 transition duration-300"
           placeholder="Search..."
           value={query}
           onChange={handleInputChange}
           onClick={() => setShowSuggestions(true)}
           ref={inputRef}
+          aria-label="Search for a movie"
         />
 
         {isLoading && (
@@ -85,7 +86,6 @@ export const SearchBar: React.FC = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-       
         >
           <path
             strokeLinecap="round"
@@ -97,30 +97,34 @@ export const SearchBar: React.FC = () => {
       </div>
 
       {showSuggestions && (
-        <ul className="absolute w-full bg-neutral-900 text-neutral-400 rounded-lg shadow-lg mt-1 max-h-80 overflow-y-auto z-10 text-lg font-playfair-display">
+        <ul className="absolute w-full bg-neutral-900 text-neutral-400 rounded-lg shadow-lg mt-1 max-h-80 overflow-y-auto z-10 text-lg font-inter">
           {isLoading ? (
             <li className="px-6 py-3 text-white">Searching...</li>
           ) : suggestions.length > 0 ? (
             suggestions.map((suggestion) => (
               <li
                 key={suggestion.imdbID}
-                className="px-6 py-3 hover:bg-neutral-800 cursor-pointer hover:text-white flex items-center justify-start"
+                className="px-6 py-3 hover:bg-neutral-800 cursor-pointer hover:text-white flex items-center justify-start transition-colors duration-200"
                 onClick={() => handleSuggestionClick(suggestion)}
               >
                 <img
                   src={suggestion.Poster}
-                  alt=""
+                  alt={suggestion.Title}
                   className="w-10 h-14 mr-4 rounded"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "placeholder_image.jpg";
+                  }}
                 />
                 <div className="flex flex-col">
-                  <span className="text-sm md:text-xl font-bold">
+                  <span className="text-sm md:text-base font-semibold">
                     {suggestion.Title}
                   </span>
-                  <div className="flex items-center border-b-1 border-neutral-400/20 pb-1">
-                    <span className=" text-neutral-400 text-xs md:text-base mr-2">
+                  <div className="flex items-center border-b-1 border-neutral-400/20 pb-1 mt-1">
+                    <span className="text-neutral-400 text-xs md:text-base mr-2">
                       {suggestion.Year}
                     </span>
-                    <span className="text-neutral-500 text-xs md:text-base">
+                    <span className="bg-neutral-800/50 text-xs md:text-base italic px-1 py-0 rounded text-neutral-600">
                       {suggestion.Type}
                     </span>
                   </div>
@@ -130,7 +134,7 @@ export const SearchBar: React.FC = () => {
           ) : query ? (
             <li className="px-6 py-3 text-white">No results found</li>
           ) : (
-            <li className="px-6 py-3 text-white">Start typing to search</li>
+            <li className="px-6 py-3 text-neutral-500/60">e.g "The Matrix"</li>
           )}
         </ul>
       )}

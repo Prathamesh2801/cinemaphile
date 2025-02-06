@@ -18,20 +18,15 @@ export const Navbar = () => {
         <div className="flex items-center gap-0 md:gap-0.5">
           <div className="origin-bottom rounded-xl px-1 py-2 text-neutral-400 transition-all delay-75 duration-300 ease-in-out hover:-translate-y-1 hover:text-white md:p-4">
             <Link to="/login">
-              <h1 className="font-doto text-sm md:text-xl">Login</h1>
+              <h1 className="font-doto text-base md:text-xl">Login</h1>
             </Link>
           </div>
-          <div>
+          {/* <div>
             <h1 className="font-doto text-xl">/</h1>
-          </div>
-          <div className="origin-bottom rounded-xl px-1 py-2 text-neutral-400 transition-all delay-75 duration-300 ease-in-out hover:-translate-y-1 hover:text-white md:p-4">
-            <Link to="/register">
-              <h1 className="font-doto text-sm md:text-xl">Signup</h1>
-            </Link>
-          </div>
+          </div> */}
         </div>
       </div>
-      <ul className="font-playfair-display flex gap-4 border-t border-neutral-800 pt-2 text-sm md:gap-8 md:text-xl">
+      <ul className="font-inter flex gap-4 border-t border-neutral-800 pt-2 text-sm md:gap-8 md:text-base">
         <li>
           <NavLink
             to="/trending"
