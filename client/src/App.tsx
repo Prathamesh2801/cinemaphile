@@ -5,11 +5,13 @@ import { AuthPage } from "./pages/AuthPage";
 import { Bookmarks } from "./pages/Bookmarks";
 import { Details } from "./pages/Details";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 
 export const App = () => {
   return (
     <>
       <BrowserRouter>
+      <AuthProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/trending" element={<Bookmarks />} />
@@ -18,6 +20,7 @@ export const App = () => {
           <Route path="/login" element={<AuthPage />} />
           <Route path="/details/:id" element={<Details />} />
         </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </>
   );
