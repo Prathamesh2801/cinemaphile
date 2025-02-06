@@ -23,6 +23,16 @@ export const register = async (req, res) => {
       { expiresIn: '24h' }
     );
 
+    // Set session
+    req.session.userId = user._id;
+
+    // Set HTTP-only cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 24 * 60 * 60 * 1000 // 1 day
+    });
+
     res.status(201).json({
       message: 'User registered successfully',
       token,
@@ -62,6 +72,16 @@ export const login = async (req, res) => {
       { expiresIn: '24h' }
     );
 
+    // Set session
+    req.session.userId = user._id;
+
+    // Set HTTP-only cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 24 * 60 * 60 * 1000 // 1 day
+    });
+
     res.json({
       message: 'Login successful',
       token,
@@ -88,5 +108,21 @@ export const getCurrentUser = async (req, res) => {
   } catch (error) {
     console.error('Get current user error:', error);
     res.status(500).json({ message: 'Error getting user data' });
+  }
+};
+
+// Logout user
+export const logout = async (req, res) => {
+  try {
+    // Clear session
+    req.session.destroy();
+
+    // Clear cookie
+    res.clearCookie('token');
+
+    res.json({ message: 'Logged out successfully' });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({ message: 'Error logging out' });
   }
 }; 

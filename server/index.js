@@ -1,11 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import movieRoutes from './routes/movie.routes.js';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import { connectDB } from './config/db.js';
 // Import routes
 import authRoutes from './routes/auth.routes.js';
 import reviewRoutes from './routes/review.routes.js';
+import movieRoutes from './routes/movie.routes.js';
 
 // Load environment variables
 dotenv.config();
@@ -17,9 +20,29 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // Your React app URL
+  credentials: true // Important for cookies
+}));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Session configuration
+app.use(session({
+  secret: process.env.JWT_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI,
+    ttl: 24 * 60 * 60 // Session TTL (1 day)
+  }),
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
+  }
+}));
 
 // Routes
 app.use('/api/movies', movieRoutes);

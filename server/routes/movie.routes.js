@@ -3,6 +3,7 @@ import { searchMovies, getMovieDetails } from '../controllers/movie.controller.j
 
 const router = express.Router();
 
+// Public routes
 router.get('/search', searchMovies);
 router.get('/:id', getMovieDetails);
 
