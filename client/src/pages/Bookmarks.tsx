@@ -1,10 +1,10 @@
 import { Layout } from "../layout/Layout";
 
-export const Trending = () => {
+export const Bookmarks = () => {
   return (
     <>
       <Layout>
-        <h1>Trending</h1>
+        <h1>Bookmarks</h1>
       </Layout>
     </>
   );
