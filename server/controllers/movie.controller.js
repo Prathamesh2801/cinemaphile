@@ -61,3 +61,48 @@ export const getMovieDetails = async (req, res) => {
     res.status(500).json({ message: 'Error fetching movie details' });
   }
 };
+
+export const getTopMovies = async (req, res) => {
+  try {
+    // List of IMDb IDs for top-rated movies
+    const topMovieIds = [
+      'tt0111161', // The Shawshank Redemption
+      'tt0068646', // The Godfather
+      'tt0071562', // The Godfather: Part II
+      'tt0468569', // The Dark Knight
+      'tt0050083', // 12 Angry Men
+      'tt0108052', // Schindler's List
+      'tt0167260', // The Lord of the Rings: The Return of the King
+      'tt0110912', // Pulp Fiction
+      'tt0060196', // The Good, the Bad and the Ugly
+      'tt0120737', // The Lord of the Rings: The Fellowship of the Ring
+      'tt0109830', // Forrest Gump
+      'tt0137523', // Fight Club
+      'tt0080684', // Star Wars: Episode V - The Empire Strikes Back
+      'tt0167261', // The Lord of the Rings: The Two Towers
+      'tt0133093', // The Matrix
+      'tt0099685', // Goodfellas
+      'tt0073486', // One Flew Over the Cuckoo's Nest
+      'tt0047478', // Seven Samurai
+      'tt0114369', // Se7en
+      'tt0317248', // City of God
+    ];
+
+    const moviePromises = topMovieIds.map(id =>
+      axios.get(`${process.env.OMDB_BASE_URL}`, {
+        params: {
+          apikey: process.env.OMDB_API_KEY,
+          i: id,
+        }
+      })
+    );
+
+    const responses = await Promise.all(moviePromises);
+    const movies = responses.map(response => response.data);
+
+    res.json(movies);
+  } catch (error) {
+    console.error('Error fetching top movies:', error);
+    res.status(500).json({ message: 'Error fetching top movies' });
+  }
+};
