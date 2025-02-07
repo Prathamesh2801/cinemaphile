@@ -1,6 +1,58 @@
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { ChevronDown } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+
+const UserMenu = () => {
+  const { user, logout } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={menuRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 rounded-full bg-neutral-900 px-4 py-2 text-white hover:bg-neutral-800 cursor-pointer"
+      >
+        <span className="font-doto">{user?.username}</span>
+        <ChevronDown
+          className={`h-4 w-4 transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-48 rounded-lg bg-neutral-900 py-2 shadow-lg">
+          <button
+            onClick={() => {
+              logout();
+              setIsOpen(false);
+            }}
+            className="w-full px-4 py-2 text-left text-red-500 hover:bg-neutral-800/20 font-bold cursor-pointer"
+          >
+            Logout
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const Navbar = () => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <nav className="py-2 text-neutral-100 backdrop-blur-sm">
       <div className="flex w-full items-center justify-between">
@@ -16,14 +68,16 @@ export const Navbar = () => {
           </span>
         </Link>
         <div className="flex items-center gap-0 md:gap-0.5">
-          <div className="origin-bottom rounded-xl px-1 py-2 text-neutral-400 transition-all delay-75 duration-300 ease-in-out hover:-translate-y-1 hover:text-white md:p-4">
-            <Link to="/login">
-              <h1 className="font-doto text-base md:text-xl">Login</h1>
+          {isAuthenticated ? (
+            <UserMenu />
+          ) : (
+            <Link
+              to="/login"
+              className="origin-bottom rounded-xl px-1 py-2 text-neutral-400 transition-all delay-75 duration-300 ease-in-out hover:-translate-y-1 hover:text-white md:p-4"
+            >
+              <span className="font-doto text-base md:text-xl">Login</span>
             </Link>
-          </div>
-          {/* <div>
-            <h1 className="font-doto text-xl">/</h1>
-          </div> */}
+          )}
         </div>
       </div>
       <ul className="font-inter flex gap-4 border-t border-neutral-800 pt-4 text-sm md:gap-8 md:text-base">
