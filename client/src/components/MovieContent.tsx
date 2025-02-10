@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMovieDetails } from "../api/movie.api";
 import { LoadingScreen } from "./LoadingWave";
+import { Comments } from './Comments';
 
 interface MovieProps {
   title: string;
@@ -47,7 +48,7 @@ export default function MovieContent() {
         setLoading(false);
       }
     };
-    
+
     fetchMovieDetails();
   }, [id]);
 
@@ -194,6 +195,8 @@ export default function MovieContent() {
           </div>
         </div>
       </div>
+
+      <Comments movieId={id!} movieTitle={movieData.title} />
     </div>
   );
 }
