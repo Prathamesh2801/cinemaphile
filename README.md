@@ -6,5 +6,5 @@ Tech Stack:
 - React
 - TypeScript
 - Vite
-- PostgreSQL
+- MongoDB
 
