@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Star } from "lucide-react";
 
 interface MovieData {
   imdbID: string;
   Title: string;
   Poster: string;
   Year: string;
+  imdbRating: string;
   Type?: string;
 }
 
@@ -14,7 +16,7 @@ export const BrowseCards: React.FC<{ movie: MovieData }> = ({ movie }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = () => {
-    navigate(`/movie/${movie.imdbID}`);
+    navigate(`/details/${movie.imdbID}`);
   };
 
   return (
@@ -51,7 +53,17 @@ export const BrowseCards: React.FC<{ movie: MovieData }> = ({ movie }) => {
               <h3 className="text-lg font-bold text-white line-clamp-1">
                 {movie.Title}
               </h3>{" "}
-              <p className="text-sm text-zinc-300">{movie.Year}</p>
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-zinc-300">{movie.Year}</p>
+                {movie.imdbRating && (
+                  <div className="flex items-center gap-1">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <span className="text-sm font-bold text-yellow-400">
+                      {movie.imdbRating}
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

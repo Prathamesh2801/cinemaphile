@@ -6,6 +6,7 @@ import { Bookmarks } from "./pages/Bookmarks";
 import { Details } from "./pages/Details";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { Toaster } from "react-hot-toast";
 
 export const App = () => {
   return (
