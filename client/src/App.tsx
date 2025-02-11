@@ -13,6 +13,37 @@ export const App = () => {
     <>
       <BrowserRouter>
         <AuthProvider>
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              success: {
+                style: {
+                  background: '#09090b',
+                  color: '#77dd77',
+                },
+                iconTheme: {
+                  primary: '#09090b',
+                  secondary: '#4CAF50',
+                },
+              },
+              error: {
+                style: {
+                  background: '#09090b',
+                  color: '#FF6961',
+                },
+                iconTheme: {
+                  primary: '#09090b',
+                  secondary: '#F44336',
+                },
+              },
+              loading: {
+                style: {
+                  background: '#424242',
+                  color: '#FFFFFF',
+                },
+              },
+            }}
+          />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/trending" element={<Bookmarks />} />

@@ -23,13 +23,12 @@ const UserMenu = () => {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 rounded-full bg-neutral-900 px-4 py-2 text-white hover:bg-neutral-800 cursor-pointer"
+        className="flex items-center gap-2 rounded-full bg-neutral-900 px-3 py-1 md:px-4 md:py-2 text-white hover:bg-neutral-800 cursor-pointer"
       >
-        <span className="font-doto">{user?.username}</span>
+        <span className="font-doto text-sm md:text-lg">{user?.username}</span>
         <ChevronDown
-          className={`h-4 w-4 transition-transform ${
-            isOpen ? "rotate-180" : ""
-          }`}
+          className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""
+            }`}
         />
       </button>
 
@@ -73,9 +72,9 @@ export const Navbar = () => {
           ) : (
             <Link
               to="/login"
-              className="origin-bottom rounded-xl px-1 py-2 text-neutral-400 transition-all delay-75 duration-300 ease-in-out hover:-translate-y-1 hover:text-white md:p-4"
+              className="origin-bottom rounded-xl px-0.5 py-1 md:px-1 md:py-2 text-neutral-400 transition-all delay-75 duration-300 ease-in-out hover:-translate-y-1 hover:text-white md:p-4"
             >
-              <span className="font-doto text-base md:text-xl">Login</span>
+              <span className="font-doto text-sm md:text-xl">Login</span>
             </Link>
           )}
         </div>
@@ -85,8 +84,7 @@ export const Navbar = () => {
           <NavLink
             to="/browse"
             className={({ isActive }) =>
-              `text-neutral-400 hover:text-white transition-colors ${
-                isActive ? "text-white" : ""
+              `text-neutral-400 hover:text-white transition-colors ${isActive ? "text-white" : ""
               }`
             }
           >
@@ -97,8 +95,7 @@ export const Navbar = () => {
           <NavLink
             to="/reviews"
             className={({ isActive }) =>
-              `text-neutral-400 hover:text-white transition-colors ${
-                isActive ? "text-white" : ""
+              `text-neutral-400 hover:text-white transition-colors ${isActive ? "text-white" : ""
               }`
             }
           >
@@ -109,8 +106,7 @@ export const Navbar = () => {
           <NavLink
             to="/trending"
             className={({ isActive }) =>
-              `text-neutral-400 hover:text-white transition-colors bg-neutral-900 hover:bg-neutral-800 p-2 rounded-lg ${
-                isActive ? "text-white" : ""
+              `text-neutral-400 hover:text-white transition-colors bg-neutral-900 hover:bg-neutral-800 p-2 rounded-md ${isActive ? "text-white" : ""
               }`
             }
           >
