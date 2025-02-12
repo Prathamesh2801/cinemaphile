@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 6
   },
+  savedMovies: {
+    type: [String],
+    default: []
+  },
   createdAt: {
     type: Date,
     default: Date.now

@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import { connectDB } from './config/db.js';
+
 // Import routes
 import authRoutes from './routes/auth.routes.js';
 import reviewRoutes from './routes/review.routes.js';
@@ -21,9 +22,12 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173', // Your React app URL
-  credentials: true // Important for cookies
+  origin: 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -45,9 +49,9 @@ app.use(session({
 }));
 
 // Routes
-app.use('/api/movies', movieRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/movies', movieRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

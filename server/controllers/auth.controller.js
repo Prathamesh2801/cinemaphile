@@ -39,7 +39,8 @@ export const register = async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        savedMovies: user.savedMovies
       }
     });
   } catch (error) {
@@ -88,7 +89,8 @@ export const login = async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        savedMovies: user.savedMovies
       }
     });
   } catch (error) {
@@ -100,11 +102,17 @@ export const login = async (req, res) => {
 // Get current user
 export const getCurrentUser = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select('-password');
+    const userId = req.session.userId || req.userId;
+    const user = await User.findById(userId).select('-password');
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.json(user);
+    res.json({
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      savedMovies: user.savedMovies
+    });
   } catch (error) {
     console.error('Get current user error:', error);
     res.status(500).json({ message: 'Error getting user data' });
@@ -115,7 +123,11 @@ export const getCurrentUser = async (req, res) => {
 export const logout = async (req, res) => {
   try {
     // Clear session
-    req.session.destroy();
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Session destruction error:', err);
+      }
+    });
 
     // Clear cookie
     res.clearCookie('token');
