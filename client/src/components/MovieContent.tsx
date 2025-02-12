@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMovieDetails } from "../api/movie.api";
 import { LoadingScreen } from "./LoadingWave";
-import { Comments } from './Comments';
 import { useAuth } from "../context/AuthContext";
 import { ScrollShadow } from "./ScrollShadow";
+import { MovieReviews } from "./MovieReviews";
+
 
 interface MovieProps {
   title: string;
@@ -46,7 +47,7 @@ export default function MovieContent() {
           actors: details.Actors,
           imdbRating: details.imdbRating,
         });
-        if (user && user.savedMovies.includes(id)) {
+        if (user && user.savedMovies && user.savedMovies.includes(id)) {
           setIsSaved(true);
         }
       } catch (error) {
@@ -214,7 +215,9 @@ export default function MovieContent() {
           </div>
         </div>
 
-        <Comments movieId={id!} />
+        <div className="container mx-auto px-4">
+          <MovieReviews movieId={id!} movieTitle={movieData.title} />
+        </div>
       </div>
     </>
   );

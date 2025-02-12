@@ -1,23 +1,36 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: '/api', // This will be proxied through Vite
+  baseURL: 'http://localhost:5000/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   }
 });
 
-// Enhanced error handling
+// Add a request interceptor to include the auth token
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Add a response interceptor to handle errors
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error('API Error:', error.response?.data || error.message);
-    console.error('Request that failed:', {
-      method: error.config?.method,
-      url: error.config?.url,
-      params: error.config?.params
-    });
+    if (error.response?.status === 401) {
+      // Handle unauthorized access
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
     return Promise.reject(error);
   }
 );
