@@ -18,13 +18,13 @@ const reviewSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 1,
-    max: 10
+    max: 5
   },
   review: {
     type: String,
     required: true,
-    minlength: 1,
-    maxlength: 1000
+    minlength: 10,
+    maxlength: 500
   },
   createdAt: {
     type: Date,
