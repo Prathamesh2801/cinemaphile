@@ -214,7 +214,7 @@ export default function MovieContent() {
           </div>
         </div>
 
-        <Comments movieId={id!} movieTitle={movieData.title} />
+        <Comments movieId={id!} />
       </div>
     </>
   );
