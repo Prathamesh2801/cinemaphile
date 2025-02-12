@@ -5,6 +5,7 @@ interface User {
   id: string;
   username: string;
   email: string;
+  savedMovies: string[];
 }
 
 interface AuthContextType {
@@ -124,7 +125,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         },
         credentials: 'include'
       });
-      
+
       localStorage.removeItem('token');
       setUser(null);
       setIsAuthenticated(false);

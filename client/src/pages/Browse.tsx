@@ -1,8 +1,8 @@
-// Browse.tsx
 import { Layout } from "../layout/Layout";
 import { BrowseCards } from "../components/BrowseCards";
 import { useEffect, useState } from "react";
 import { LoadingScreen } from "../components/LoadingWave";
+import { ScrollShadow } from "../components/ScrollShadow";
 
 interface Movie {
   imdbID: string;
@@ -75,7 +75,7 @@ export const Browse = () => {
         </button>
 
         <h1 className="text-3xl font-bold text-white mb-8 font-doto">Top Rated Movies</h1>
-        
+
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 mx-auto space-y-4">
           {movies.map((movie) => (
             <div key={movie.imdbID} className="break-inside-avoid mb-4">
@@ -84,6 +84,8 @@ export const Browse = () => {
           ))}
         </div>
       </div>
+      <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-zinc-950 to-transparent h-16"></div>
+      <ScrollShadow />
     </Layout>
   );
 };

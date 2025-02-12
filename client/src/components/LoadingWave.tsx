@@ -13,14 +13,14 @@ export const LoadingScreen = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full h-1 bg-zinc-800">
+      <div className="fixed top-0 left-0 w-full h-1">
         <div
-          className="h-full bg-zinc-100 transition-all duration-500 ease-out"
+          className="h-full bg-gradient-to-r from-transparent to-neutral-100 transition-all duration-500 ease-out rounded-r-sm"
           style={{ width: `${progress}%` }}
         />
       </div>
 
-      <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center gap-1">
+      <div className="min-h-screen bg-zinc-950 text-neutral-100 flex items-center justify-center gap-1">
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
