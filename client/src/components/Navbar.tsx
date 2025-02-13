@@ -23,23 +23,29 @@ const UserMenu = () => {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 rounded-full bg-neutral-900 px-3 py-1 md:px-4 md:py-2 text-white hover:bg-neutral-800 cursor-pointer"
+        className="flex items-center gap-2 rounded-lg bg-neutral-900/30 px-4 py-2 text-neutral-300 hover:text-white border border-neutral-800/50 transition-all duration-200"
       >
-        <span className="font-doto text-sm md:text-lg">{user?.username}</span>
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-full bg-neutral-800 flex items-center justify-center">
+            <span className="text-sm font-medium text-neutral-400">
+              {user?.username.charAt(0).toUpperCase()}
+            </span>
+          </div>
+          <span className="font-doto text-sm md:text-base">{user?.username}</span>
+        </div>
         <ChevronDown
-          className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""
-            }`}
+          className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 rounded-lg bg-neutral-900 py-2 shadow-lg">
+        <div className="absolute right-0 mt-2 w-48 rounded-lg bg-neutral-900/30 border border-neutral-800/50 py-2 shadow-lg">
           <button
             onClick={() => {
               logout();
               setIsOpen(false);
             }}
-            className="w-full px-4 py-2 text-left text-red-500 hover:bg-neutral-800/20 font-bold cursor-pointer"
+            className="w-full px-4 py-2 text-left text-neutral-400 hover:text-red-400 hover:bg-neutral-800/20 font-doto transition-colors duration-200"
           >
             Logout
           </button>
@@ -53,11 +59,11 @@ export const Navbar = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <nav className="py-2 text-neutral-100 backdrop-blur-sm">
-      <div className="flex w-full items-center justify-between">
+    <nav className="py-4 text-neutral-100 backdrop-blur-sm border-b border-neutral-800/50">
+      <div className="flex w-full items-center justify-between mb-8">
         <Link
           to="/"
-          className="font-doto group relative my-3 inline-block text-xl text-neutral-400 transition-colors after:transition-all after:duration-300 hover:text-white hover:after:w-full md:my-6 md:text-3xl"
+          className="font-doto group relative inline-block text-xl text-neutral-300 transition-colors hover:text-white md:text-3xl"
         >
           <span className="inline-block transition-transform duration-300 group-hover:-translate-y-1">
             Cinema
@@ -66,54 +72,67 @@ export const Navbar = () => {
             phile
           </span>
         </Link>
-        <div className="flex items-center gap-0 md:gap-0.5">
+        <div className="flex items-center gap-2">
           {isAuthenticated ? (
             <UserMenu />
           ) : (
             <Link
               to="/login"
-              className="origin-bottom rounded-xl px-0.5 py-1 md:px-1 md:py-2 text-neutral-400 transition-all delay-75 duration-300 ease-in-out hover:-translate-y-1 hover:text-white md:p-4"
+              className="rounded-lg bg-neutral-900/30 px-4 py-2 text-neutral-300 hover:text-white border border-neutral-800/50 transition-all duration-200 font-doto"
             >
-              <span className="font-doto text-sm md:text-xl">Login</span>
+              Login
             </Link>
           )}
         </div>
       </div>
-      <ul className="font-inter flex gap-4 border-t border-neutral-800 pt-4 text-sm md:gap-8 md:text-base">
-        <li>
-          <NavLink
-            to="/browse"
-            className={({ isActive }) =>
-              `text-neutral-400 hover:text-white transition-colors ${isActive ? "text-white" : ""
-              }`
-            }
-          >
-            Browse
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/reviews"
-            className={({ isActive }) =>
-              `text-neutral-400 hover:text-white transition-colors ${isActive ? "text-white" : ""
-              }`
-            }
-          >
-            Reviews
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/trending"
-            className={({ isActive }) =>
-              `text-neutral-400 hover:text-white transition-colors bg-neutral-900 hover:bg-neutral-800 p-2 rounded-md ${isActive ? "text-white" : ""
-              }`
-            }
-          >
-            Bookmarks
-          </NavLink>
-        </li>
-      </ul>
+
+      <div className="flex items-center justify-center gap-8">
+        <NavLink
+          to="/browse"
+          className={({ isActive }) =>
+            `relative px-3 py-2 font-doto text-sm md:text-base transition-all duration-200 ${
+              isActive 
+                ? "text-white" 
+                : "text-neutral-400 hover:text-white"
+            } after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:rounded-full after:transition-all after:duration-200 ${
+              isActive
+                ? "after:bg-neutral-100 after:opacity-100"
+                : "after:bg-neutral-400 after:opacity-0 hover:after:opacity-30"
+            }`}
+        >
+          Browse
+        </NavLink>
+        <NavLink
+          to="/reviews"
+          className={({ isActive }) =>
+            `relative px-3 py-2 font-doto text-sm md:text-base transition-all duration-200 ${
+              isActive 
+                ? "text-white" 
+                : "text-neutral-400 hover:text-white"
+            } after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:rounded-full after:transition-all after:duration-200 ${
+              isActive
+                ? "after:bg-neutral-100 after:opacity-100"
+                : "after:bg-neutral-400 after:opacity-0 hover:after:opacity-30"
+            }`}
+        >
+          Reviews
+        </NavLink>
+        <NavLink
+          to="/trending"
+          className={({ isActive }) =>
+            `relative px-3 py-2 font-doto text-sm md:text-base transition-all duration-200 ${
+              isActive 
+                ? "text-white" 
+                : "text-neutral-400 hover:text-white"
+            } after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:rounded-full after:transition-all after:duration-200 ${
+              isActive
+                ? "after:bg-neutral-100 after:opacity-100"
+                : "after:bg-neutral-400 after:opacity-0 hover:after:opacity-30"
+            }`}
+        >
+          Bookmarks
+        </NavLink>
+      </div>
     </nav>
   );
 };

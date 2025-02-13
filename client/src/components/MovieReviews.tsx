@@ -103,101 +103,120 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
   };
 
   return (
-    <div className="mt-12 space-y-8">
-      <h2 className="text-2xl font-bold font-doto">Reviews</h2>
-
+    <>
+    <div className="mt-20 space-y-6">
       {isAuthenticated ? (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex items-center gap-2">
-            {[1, 2, 3, 4, 5].map((value) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => setRating(value)}
-                className={`p-2 rounded-lg ${
-                  rating >= value ? 'text-yellow-400' : 'text-zinc-600'
-                }`}
-              >
-                <Star 
-                  className={rating >= value ? 'fill-yellow-400' : ''} 
-                  size={24} 
-                />
-              </button>
-            ))}
+        <div className="space-y-4 bg-neutral-900/30 p-6 rounded-lg border border-neutral-800/50">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center">
+                <span className="text-base font-medium text-neutral-400 font-doto">
+                  {user?.username.charAt(0).toUpperCase()}
+                </span>
+              </div>
+              <span className="font-doto text-neutral-300">{user?.username}</span>
+            </div>
+
+            <div className="flex items-center gap-1 bg-zinc-900/50 p-2 rounded-lg border border-zinc-800 sm:ml-auto">
+              {[1, 2, 3, 4, 5].map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setRating(value)}
+                  className={`p-1.5 rounded-md hover:bg-zinc-800 transition-colors ${
+                    rating >= value ? 'text-yellow-400' : 'text-zinc-600'
+                  }`}
+                >
+                  <Star 
+                    className={rating >= value ? 'fill-yellow-400' : ''} 
+                    size={20} 
+                  />
+                </button>
+              ))}
+            </div>
           </div>
 
-          <textarea
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-700 transition-all"
-            placeholder="Write your review..."
-            rows={4}
-            required
-            minLength={10}
-            maxLength={500}
-          />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <textarea
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-lg bg-neutral-900/50 border border-neutral-800 focus:outline-none focus:ring-1 focus:ring-neutral-700 transition-all font-inter"
+              placeholder="Write your review..."
+              rows={4}
+              required
+              minLength={10}
+              maxLength={500}
+            />
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50"
-          >
-            {isSubmitting
-              ? 'Submitting...'
-              : editingId
-              ? 'Update Review'
-              : 'Submit Review'}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full px-6 py-2.5 bg-transparent hover:bg-neutral-800 text-white rounded-lg transition-colors disabled:opacity-50 disabled:hover:bg-emerald-600 font-doto border-2 border-neutral-800 cursor-pointer"
+            >
+              {isSubmitting
+                ? 'Submitting...'
+                : editingId
+                ? 'Update Review'
+                : 'Submit Review'}
+            </button>
+          </form>
+        </div>
       ) : (
-        <div className="p-4 bg-zinc-900 rounded-lg text-zinc-400">
-          Please <a href="/login" className="text-emerald-500 hover:underline">sign in</a> to write a review.
+        <div className="p-6 bg-neutral-900/30 rounded-lg text-zinc-400 border border-neutral-800/50">
+          Please <a href="/login" className="text-neutral-500 hover:underline">sign in</a> to write a review.
         </div>
       )}
 
       <div className="space-y-6">
+        <h2 className="text-2xl font-bold font-doto mt-12 mb-8">Reviews</h2>
+
         {reviews.map((review) => (
-          <div key={review._id} className="p-4 bg-zinc-900 rounded-lg space-y-2">
+          <div 
+            key={review._id} 
+            className="space-y-4 bg-neutral-900/30 p-6 rounded-lg border border-neutral-800/50 transition-colors duration-200 hover:bg-neutral-900/50"
+          >
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-emerald-600/20 flex items-center justify-center">
-                  <span className="text-sm font-medium text-emerald-500">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center">
+                  <span className="text-base font-medium text-neutral-400 font-doto">
                     {review.user.username.charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <span className="font-medium">{review.user.username}</span>
+                <span className="font-doto text-neutral-300">{review.user.username}</span>
               </div>
               <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, index) => (
                   <Star
                     key={index}
-                    className={`h-4 w-4 ${
+                    className={`h-5 w-5 ${
                       index < review.rating
                         ? 'fill-yellow-400 text-yellow-400'
-                        : 'text-zinc-600'
+                        : 'text-neutral-800'
                     }`}
                   />
                 ))}
               </div>
             </div>
 
-            <p className="text-zinc-300">{review.review}</p>
+            <p className="text-neutral-400 font-inter leading-relaxed">
+              {review.review}
+            </p>
 
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-zinc-500">
+            <div className="flex items-center justify-between text-sm pt-2 border-t border-neutral-800/50">
+              <span className="text-neutral-500 font-doto">
                 {new Date(review.createdAt).toLocaleDateString()}
               </span>
               {user && user.id === review.user._id && (
-                <div className="flex gap-2">
+                <div className="flex gap-4">
                   <button
                     onClick={() => handleEdit(review)}
-                    className="text-zinc-400 hover:text-white"
+                    className="text-neutral-400 hover:text-white transition-colors font-doto"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(review._id)}
-                    className="text-red-400 hover:text-red-500"
+                    className="text-red-400/70 hover:text-red-400 transition-colors font-doto"
                   >
                     Delete
                   </button>
@@ -208,11 +227,12 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
         ))}
 
         {reviews.length === 0 && (
-          <div className="text-center text-zinc-500 py-8">
+          <div className="text-center text-neutral-500 py-12 font-doto">
             No reviews yet. Be the first to review!
           </div>
         )}
       </div>
     </div>
+    </>
   );
 }; 

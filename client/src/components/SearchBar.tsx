@@ -65,8 +65,8 @@ export const SearchBar: React.FC = () => {
       <div className="relative">
         <input
           type="text"
-          className="font-doto w-full appearance-none rounded-lg bg-neutral-900 px-6 py-4 text-lg text-white shadow-inner focus:outline-none focus:ring-2 focus:ring-neutral-100/30 transition duration-300"
-          placeholder="Search..."
+          className="font-doto w-full appearance-none rounded-lg bg-neutral-900/30 border border-neutral-800/50 px-6 py-4 text-lg text-neutral-300 shadow-inner focus:outline-none focus:ring-1 focus:ring-neutral-700 transition-all duration-200"
+          placeholder="Search movies..."
           value={query}
           onChange={handleInputChange}
           onClick={() => setShowSuggestions(true)}
@@ -76,13 +76,13 @@ export const SearchBar: React.FC = () => {
 
         {isLoading && (
           <div className="absolute right-16 top-1/2 transform -translate-y-1/2">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-neutral-400"></div>
           </div>
         )}
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute right-4 top-1/2 h-8 w-8 -translate-y-1/2 transform text-neutral-500"
+          className="absolute right-4 top-1/2 h-6 w-6 -translate-y-1/2 transform text-neutral-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -97,34 +97,34 @@ export const SearchBar: React.FC = () => {
       </div>
 
       {showSuggestions && (
-        <ul className="absolute w-full bg-neutral-900 text-neutral-400 rounded-lg shadow-lg mt-1 max-h-80 overflow-y-auto z-10 text-lg font-inter">
+        <ul className="absolute w-full bg-neutral-900/30 border border-neutral-800/50 text-neutral-300 rounded-lg shadow-lg mt-2 max-h-80 overflow-y-auto z-10 text-base font-inter">
           {isLoading ? (
-            <li className="px-6 py-3 text-white">Searching...</li>
+            <li className="px-6 py-3 text-neutral-400">Searching...</li>
           ) : suggestions.length > 0 ? (
             suggestions.map((suggestion) => (
               <li
                 key={suggestion.imdbID}
-                className="px-6 py-3 hover:bg-neutral-800 cursor-pointer hover:text-white flex items-center justify-start transition-colors duration-200"
+                className="px-6 py-3 hover:bg-neutral-800/50 cursor-pointer hover:text-white flex items-center justify-start transition-all duration-200 border-b border-neutral-800/30 last:border-none"
                 onClick={() => handleSuggestionClick(suggestion)}
               >
                 <img
                   src={suggestion.Poster}
                   alt={suggestion.Title}
-                  className="w-10 h-14 mr-4 rounded"
+                  className="w-10 h-14 mr-4 rounded border border-neutral-800/50"
                   onError={(e) => {
                     e.currentTarget.onerror = null;
                     e.currentTarget.src = "placeholder_image.jpg";
                   }}
                 />
                 <div className="flex flex-col">
-                  <span className="text-sm md:text-base font-semibold">
+                  <span className="text-sm md:text-base font-medium">
                     {suggestion.Title}
                   </span>
-                  <div className="flex items-center border-b-1 border-neutral-400/20 pb-1 mt-1">
-                    <span className="text-neutral-400 text-xs md:text-base mr-2">
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-neutral-400 text-xs md:text-sm">
                       {suggestion.Year}
                     </span>
-                    <span className="bg-neutral-800/50 text-xs md:text-base italic px-1 py-0 rounded text-neutral-600">
+                    <span className="bg-neutral-800/50 text-xs md:text-sm px-2 py-0.5 rounded-full text-neutral-500">
                       {suggestion.Type}
                     </span>
                   </div>
@@ -132,9 +132,9 @@ export const SearchBar: React.FC = () => {
               </li>
             ))
           ) : query ? (
-            <li className="px-6 py-3 text-white">No results found</li>
+            <li className="px-6 py-3 text-neutral-400">No results found</li>
           ) : (
-            <li className="px-6 py-3 text-neutral-500/60">e.g "The Matrix"</li>
+            <li className="px-6 py-3 text-neutral-500">Try "The Matrix"</li>
           )}
         </ul>
       )}

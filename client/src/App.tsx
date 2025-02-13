@@ -18,12 +18,12 @@ export const App = () => {
           toastOptions={{
             success: {
               style: {
-                background: '#10B981',
-                color: 'white',
+                background: '#09090b',
+                color: '#10b981',
               },
               iconTheme: {
-                primary: 'white',
-                secondary: '#10B981',
+                primary: '#10b981',
+                secondary: '#09090b',
               },
             },
             error: {

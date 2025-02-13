@@ -1,4 +1,4 @@
-import { Star, Bookmark, BookmarkCheck } from "lucide-react";
+import { Star, Bookmark, BookmarkCheck, ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMovieDetails } from "../api/movie.api";
@@ -119,38 +119,29 @@ export default function MovieContent() {
     <>
       <ScrollShadow />
       <div className="min-h-screen bg-zinc-950 text-zinc-100 font-inter mt-16">
-        <div className="flex w-full items-center justify-between mb-20">
+        <div className="container mx-auto space-y-6">
+          <div className="flex w-full items-center justify-between mb-20">
           <button
-            onClick={() => navigate(-1)}
-            className="flex items-center text-neutral-400 hover:text-neutral-100 transition-colors cursor-pointer"
-            title="Go Back"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-2"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+              onClick={() => window.history.back()}
+              className="flex items-center gap-2 text-neutral-400 hover:text-neutral-100 transition-colors cursor-pointer"
+              title="Go Back"
             >
-              <path
-                fillRule="evenodd"
-                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
+              <ArrowLeft className="h-5 w-5" />
+              <span className="font-doto">Back</span>
+            </button>
 
-          <button
-            onClick={handleSave}
-            className={`flex items-center gap-2 text-neutral-400 hover:text-neutral-100 transition-colors cursor-pointer`}
-            title={isSaved ? "Saved" : "Save"}
-          >
-            <span>
-              {isSaved ? <BookmarkCheck color="green" /> : <Bookmark />}
-            </span>
-            <span className="text-sm font-medium">{isSaved ? "Saved" : "Save"}</span>
-          </button>
-        </div>
-        <div className="container mx-auto">
+            <button
+              onClick={handleSave}
+              className={`flex items-center gap-2 text-neutral-400 hover:text-neutral-100 transition-colors cursor-pointer`}
+              title={isSaved ? "Saved" : "Save"}
+            >
+              <span>
+                {isSaved ? <BookmarkCheck color="green" /> : <Bookmark />}
+              </span>
+              <span className="text-sm font-medium">{isSaved ? "Saved" : "Save"}</span>
+            </button>
+          </div>
+
           <div className="grid gap-8 md:grid-cols-[300px_1fr] lg:gap-12">
             <div className="space-y-4">
               <div className="overflow-hidden rounded-lg border border-zinc-800">
@@ -161,7 +152,7 @@ export default function MovieContent() {
                   loading="eager"
                 />
               </div>
-              <div className="flex items-center justify-center gap-2 rounded-lg border border-zinc-800 p-4">
+              <div className="flex items-center justify-center gap-2 rounded-lg border border-zinc-800 p-4 bg-neutral-900/30">
                 <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                 <span className="text-xl font-bold font-doto">{imdbRating}</span>
                 <span className="text-base text-zinc-400 font-doto">/10</span>
@@ -169,54 +160,58 @@ export default function MovieContent() {
             </div>
 
             <div className="space-y-6">
-              <div className="space-y-2">
-                <h1 className="text-4xl font-bold tracking-tight font-doto">
-                  {title} <span className="text-zinc-500">({year})</span>
-                </h1>
-                <div className="flex flex-wrap gap-2 text-sm text-zinc-400">
-                  <span>{runtime}</span>
-                  <span>•</span>
-                  <span>{rating}</span>
+              <div className="space-y-6 bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
+                <div className="space-y-2">
+                  <h1 className="text-xl md:text-4xl font-bold tracking-tight font-doto">
+                    {title} <span className="text-zinc-500">({year})</span>
+                  </h1>
+                  <div className="flex flex-wrap gap-2 text-sm text-zinc-400">
+                    <span>{runtime}</span>
+                    <span>•</span>
+                    <span>{rating}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {genre.map((g) => (
+                    <span
+                      key={g}
+                      className="rounded-full bg-zinc-800 px-3 py-1 text-sm font-medium text-neutral-600 hover:text-neutral-300 transition-all duration-200 cursor-pointer"
+                    >
+                      {g}
+                    </span>
+                  ))}
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2">
-                {genre.map((g) => (
-                  <span
-                    key={g}
-                    className="rounded-full bg-zinc-800 px-3 py-1 text-sm font-medium text-neutral-600 hover:text-neutral-300 transition-all duration-200 cursor-pointer"
-                  >
-                    {g}
-                  </span>
-                ))}
+              <div className="bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
+                <h2 className="text-xl font-bold mb-4 font-doto text-zinc-100">Plot</h2>
+                <p className="text-zinc-300 leading-relaxed">{plot}</p>
               </div>
 
-              <div className="space-y-4 border-t border-zinc-800 pt-4">
-                <p className="text-zinc-300 justify-evenly">{plot}</p>
-              </div>
-
-              <div className="space-y-4 border-t border-zinc-800 pt-4">
-                <div className="grid gap-4 md:grid-cols-2">
+              <div className="bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
+                <h2 className="text-xl font-bold mb-4 font-doto text-zinc-100">Cast & Crew</h2>
+                <div className="grid gap-6 md:grid-cols-2">
                   <div>
-                    <h2 className="text-sm md:text-base font-semibold text-zinc-400 font-doto">
+                    <h3 className="text-sm font-semibold text-zinc-400 font-doto mb-2">
                       Director
-                    </h2>
+                    </h3>
                     <p className="text-zinc-100">{director}</p>
                   </div>
                   <div>
-                    <h2 className="text-sm md:text-base font-semibold text-zinc-400 font-doto">
+                    <h3 className="text-sm font-semibold text-zinc-400 font-doto mb-2">
                       Starring
-                    </h2>
+                    </h3>
                     <p className="text-zinc-100">{actors}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="container mx-auto px-4">
-          <MovieReviews movieId={id!} movieTitle={movieData.title} />
+          <div className="mt-12">
+            <MovieReviews movieId={id!} movieTitle={movieData.title} />
+          </div>
         </div>
       </div>
     </>
