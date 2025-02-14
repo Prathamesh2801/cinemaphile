@@ -31,8 +31,8 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.error('API Error:', error);
     if (error.response?.status === 401) {
-      // Handle unauthorized access
       localStorage.removeItem('token');
       window.location.href = '/login';
     }
@@ -43,7 +43,7 @@ apiClient.interceptors.response.use(
 // Add request interceptor for debugging
 apiClient.interceptors.request.use(
   (config) => {
-    console.log('Making request to:', config.url, 'with params:', config.params);
+    console.log('Making request to:', config.url);
     return config;
   },
   (error) => {
