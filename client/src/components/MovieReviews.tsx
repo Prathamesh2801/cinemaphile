@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Star } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -29,6 +29,7 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const { user, isAuthenticated } = useAuth();
+  const reviewFormRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchReviews();
@@ -58,27 +59,37 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
     setIsSubmitting(true);
     try {
       if (editingId) {
-        await apiClient.put(`/reviews/${editingId}`, {
+        const response = await apiClient.put(`/reviews/${editingId}`, {
           rating,
           review: userInput
         });
+        
+        // Update the reviews array with the edited review
+        setReviews(reviews.map(rev => 
+          rev._id === editingId ? response.data : rev
+        ));
+        
         toast.success('Review updated successfully');
+        setEditingId(null);
       } else {
-        await apiClient.post('/reviews', {
+        const response = await apiClient.post('/reviews', {
           movieId,
           movieTitle,
           rating,
           review: userInput
         });
+        
+        // Add the new review to the reviews array
+        setReviews([response.data, ...reviews]);
         toast.success('Review submitted successfully');
       }
 
       setUserInput('');
       setRating(0);
-      setEditingId(null);
-      fetchReviews();
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to submit review');
+      const errorMessage = error.response?.data?.message || 'Failed to submit review';
+      toast.error(errorMessage);
+      console.error('Review submission error:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -89,10 +100,13 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
 
     try {
       await apiClient.delete(`/reviews/${id}`);
+      // Remove the deleted review from the reviews array
+      setReviews(reviews.filter(rev => rev._id !== id));
       toast.success('Review deleted successfully');
-      fetchReviews();
-    } catch (error) {
-      toast.error('Failed to delete review');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 'Failed to delete review';
+      toast.error(errorMessage);
+      console.error('Review deletion error:', error);
     }
   };
 
@@ -100,13 +114,21 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
     setEditingId(review._id);
     setUserInput(review.review);
     setRating(review.rating);
+    // Scroll to the review form
+    reviewFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setUserInput('');
+    setRating(0);
   };
 
   return (
     <>
     <div className="mt-20 space-y-6">
       {isAuthenticated ? (
-        <div className="space-y-4 bg-neutral-900/30 p-6 rounded-lg border border-neutral-800/50">
+        <div ref={reviewFormRef} className="space-y-4 bg-neutral-900/30 p-6 rounded-lg border border-neutral-800/50">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center">
@@ -148,21 +170,32 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
               maxLength={500}
             />
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full px-6 py-2.5 bg-transparent hover:bg-neutral-800 text-white rounded-lg transition-colors disabled:opacity-50 disabled:hover:bg-emerald-600 font-doto border-2 border-neutral-800 cursor-pointer"
-            >
-              {isSubmitting
-                ? 'Submitting...'
-                : editingId
-                ? 'Update Review'
-                : 'Submit Review'}
-            </button>
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex-1 px-6 py-2.5 bg-transparent hover:bg-neutral-800 text-white rounded-lg transition-colors disabled:opacity-50 disabled:hover:bg-emerald-600 font-doto border-2 border-neutral-800 cursor-pointer"
+              >
+                {isSubmitting
+                  ? 'Submitting...'
+                  : editingId
+                  ? 'Update Review'
+                  : 'Submit Review'}
+              </button>
+              {editingId && (
+                <button
+                  type="button"
+                  onClick={cancelEdit}
+                  className="px-6 py-2.5 bg-transparent hover:bg-red-900/20 text-red-400 rounded-lg transition-colors font-doto border-2 border-red-900/50 cursor-pointer"
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
           </form>
         </div>
       ) : (
-        <div className="p-6 bg-neutral-900/30 rounded-lg text-zinc-400 border border-neutral-800/50">
+        <div ref={reviewFormRef} className="p-6 bg-neutral-900/30 rounded-lg text-zinc-400 border border-neutral-800/50">
           Please <a href="/login" className="text-neutral-500 hover:underline">sign in</a> to write a review.
         </div>
       )}
@@ -210,7 +243,7 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
                 <div className="flex gap-4">
                   <button
                     onClick={() => handleEdit(review)}
-                    className="text-neutral-400 hover:text-white transition-colors font-doto"
+                    className="text-neutral-400  hover:text-white transition-colors font-doto"
                   >
                     Edit
                   </button>

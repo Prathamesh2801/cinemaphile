@@ -6,6 +6,8 @@ import { LoadingScreen } from "./LoadingWave";
 import { useAuth } from "../context/AuthContext";
 import { ScrollShadow } from "./ScrollShadow";
 import { MovieReviews } from "./MovieReviews";
+import toast from "react-hot-toast";
+import apiClient from "../api/apiClient";
 
 
 interface MovieProps {
@@ -61,24 +63,24 @@ export default function MovieContent() {
   }, [id, user]);
 
   const handleSave = async () => {
-    if (!user) return;
-    try {
-      const response = await fetch(`http://localhost:5000/api/users/${user.id}/save`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ movieId: id })
-      });
+    if (!user) {
+      toast.error('Please login to bookmark movies');
+      return;
+    }
 
-      if (response.ok) {
-        setIsSaved(true);
+    try {
+      if (isSaved) {
+        await apiClient.delete(`/users/bookmarks/${id}`);
+        toast.success('Removed from bookmarks');
+        setIsSaved(false);
       } else {
-        console.error('Failed to save movie');
+        await apiClient.post('/users/bookmarks', { movieId: id });
+        toast.success('Added to bookmarks');
+        setIsSaved(true);
       }
     } catch (error) {
-      console.error('Error saving movie:', error);
+      console.error('Error handling bookmark:', error);
+      toast.error('Failed to update bookmark');
     }
   };
 
