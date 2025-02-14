@@ -46,7 +46,7 @@ export const App = () => {
         />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/trending" element={<Bookmarks />} />
+          <Route path="/bookmarks" element={<Bookmarks />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/login" element={<AuthPage />} />

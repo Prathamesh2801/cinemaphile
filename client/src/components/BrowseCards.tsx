@@ -21,7 +21,7 @@ export const BrowseCards: React.FC<{ movie: MovieData }> = ({ movie }) => {
 
   return (
     <div
-      className="w-full rounded-xl overflow-hidden relative bg-zinc-800 shadow-lg transition-all duration-300"
+      className="w-full rounded-xl overflow-hidden relative bg-neutral-800 shadow-lg transition-all duration-300"
       onClick={handleClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -39,7 +39,7 @@ export const BrowseCards: React.FC<{ movie: MovieData }> = ({ movie }) => {
           className={`absolute inset-0 transition-opacity duration-200 cursor-pointer`}
         >
           <div
-            className={`absolute inset-0 bg-gradient-to-b from-transparent to-zinc-900/70 ${
+            className={`absolute inset-0 bg-gradient-to-b from-transparent to-neutral-900/70 ${
               isHovered ? "opacity-100" : "opacity-0"
             } transition-opacity duration-300`}
           ></div>{" "}
@@ -54,7 +54,7 @@ export const BrowseCards: React.FC<{ movie: MovieData }> = ({ movie }) => {
                 {movie.Title}
               </h3>{" "}
               <div className="flex items-center justify-between">
-                <p className="text-sm text-zinc-300">{movie.Year}</p>
+                <p className="text-sm text-neutral-300">{movie.Year}</p>
                 {movie.imdbRating && (
                   <div className="flex items-center gap-1">
                     <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />

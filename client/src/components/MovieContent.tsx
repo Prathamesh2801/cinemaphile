@@ -91,7 +91,7 @@ export default function MovieContent() {
   if (!movieData) {
     return (
       <>
-        <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center">
+        <div className="min-h-screen bg-neutral-950 text-neutral-100 flex items-center justify-center">
           <div className="text-xl">Movie not found</div>
           <button
             onClick={() => navigate(-1)}
@@ -120,7 +120,7 @@ export default function MovieContent() {
   return (
     <>
       <ScrollShadow />
-      <div className="min-h-screen bg-zinc-950 text-zinc-100 font-inter mt-16">
+      <div className="min-h-screen bg-neutral-950 text-neutral-100 font-inter mt-16">
         <div className="container mx-auto space-y-6">
           <div className="flex w-full items-center justify-between mb-20">
           <button
@@ -146,7 +146,7 @@ export default function MovieContent() {
 
           <div className="grid gap-8 md:grid-cols-[300px_1fr] lg:gap-12">
             <div className="space-y-4">
-              <div className="overflow-hidden rounded-lg border border-zinc-800">
+              <div className="overflow-hidden rounded-lg border border-neutral-800">
                 <img
                   src={poster || "/placeholder.svg"}
                   alt={title}
@@ -154,10 +154,10 @@ export default function MovieContent() {
                   loading="eager"
                 />
               </div>
-              <div className="flex items-center justify-center gap-2 rounded-lg border border-zinc-800 p-4 bg-neutral-900/30">
+              <div className="flex items-center justify-center gap-2 rounded-lg border border-neutral-800 p-4 bg-neutral-900/30">
                 <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                 <span className="text-xl font-bold font-doto">{imdbRating}</span>
-                <span className="text-base text-zinc-400 font-doto">/10</span>
+                <span className="text-base text-neutral-400 font-doto">/10</span>
               </div>
             </div>
 
@@ -165,9 +165,9 @@ export default function MovieContent() {
               <div className="space-y-6 bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
                 <div className="space-y-2">
                   <h1 className="text-xl md:text-4xl font-bold tracking-tight font-doto">
-                    {title} <span className="text-zinc-500">({year})</span>
+                    {title} <span className="text-neutral-500">({year})</span>
                   </h1>
-                  <div className="flex flex-wrap gap-2 text-sm text-zinc-400">
+                  <div className="flex flex-wrap gap-2 text-sm text-neutral-400">
                     <span>{runtime}</span>
                     <span>•</span>
                     <span>{rating}</span>
@@ -178,7 +178,7 @@ export default function MovieContent() {
                   {genre.map((g) => (
                     <span
                       key={g}
-                      className="rounded-full bg-zinc-800 px-3 py-1 text-sm font-medium text-neutral-600 hover:text-neutral-300 transition-all duration-200 cursor-pointer"
+                      className="rounded-full bg-neutral-800 px-3 py-1 text-sm font-medium text-neutral-600 hover:text-neutral-300 transition-all duration-200 cursor-pointer"
                     >
                       {g}
                     </span>
@@ -187,24 +187,24 @@ export default function MovieContent() {
               </div>
 
               <div className="bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
-                <h2 className="text-xl font-bold mb-4 font-doto text-zinc-100">Plot</h2>
-                <p className="text-zinc-300 leading-relaxed">{plot}</p>
+                <h2 className="text-xl font-bold mb-4 font-doto text-neutral-100">Plot</h2>
+                <p className="text-neutral-300 leading-relaxed">{plot}</p>
               </div>
 
               <div className="bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
-                <h2 className="text-xl font-bold mb-4 font-doto text-zinc-100">Cast & Crew</h2>
+                <h2 className="text-xl font-bold mb-4 font-doto text-neutral-100">Cast & Crew</h2>
                 <div className="grid gap-6 md:grid-cols-2">
                   <div>
-                    <h3 className="text-sm font-semibold text-zinc-400 font-doto mb-2">
+                    <h3 className="text-sm font-semibold text-neutral-400 font-doto mb-2">
                       Director
                     </h3>
-                    <p className="text-zinc-100">{director}</p>
+                    <p className="text-neutral-100">{director}</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-zinc-400 font-doto mb-2">
+                    <h3 className="text-sm font-semibold text-neutral-400 font-doto mb-2">
                       Starring
                     </h3>
-                    <p className="text-zinc-100">{actors}</p>
+                    <p className="text-neutral-100">{actors}</p>
                   </div>
                 </div>
               </div>
