@@ -1,11 +1,16 @@
 import axios from 'axios';
 
+const baseURL = import.meta.env.PROD 
+  ? 'https://cinemaphile-server.onrender.com/api'
+  : 'http://localhost:5000/api';
+
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
+  withCredentials: true
 });
 
 // Add a request interceptor to include the auth token
