@@ -1,5 +1,18 @@
 import { Review } from '../models/Review.js';
 
+// Get all reviews
+export const getAllReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find()
+      .populate('user', 'username')
+      .sort({ createdAt: -1 });
+    res.json(reviews);
+  } catch (error) {
+    console.error('Get all reviews error:', error);
+    res.status(500).json({ message: 'Error getting reviews' });
+  }
+};
+
 // Create a new review
 export const createReview = async (req, res) => {
   try {
