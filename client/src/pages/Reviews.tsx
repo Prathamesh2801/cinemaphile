@@ -5,7 +5,7 @@ import { LoadingScreen } from "../components/LoadingWave";
 import { Star, ArrowLeft } from "lucide-react";
 import apiClient from "../api/apiClient";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 interface Review {
   _id: string;
@@ -31,10 +31,14 @@ export const Reviews = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAllReviews();
-  }, []);
+    if (isAuthenticated) {
+      fetchUserReviews();
+    } else {
+      setLoading(false);
+    }
+  }, [isAuthenticated]);
 
-  const fetchAllReviews = async () => {
+  const fetchUserReviews = async () => {
     try {
       const response = await apiClient.get('/reviews');
       setReviews(response.data);
@@ -59,7 +63,6 @@ export const Reviews = () => {
         review: editedReview
       });
 
-      // Update the reviews array with the edited review
       setReviews(reviews.map(rev => 
         rev._id === reviewId ? response.data : rev
       ));
@@ -91,6 +94,33 @@ export const Reviews = () => {
     return <LoadingScreen />;
   }
 
+  if (!isAuthenticated) {
+    return (
+      <Layout>
+        <div className="min-h-screen bg-zinc-950">
+          <div className="container mx-auto px-4 py-8">
+            <div className="flex flex-col items-center justify-center gap-6 py-20">
+              <div className="text-center space-y-4">
+                <h1 className="text-2xl md:text-3xl font-bold text-white font-doto">
+                  Your Reviews
+                </h1>
+                <p className="text-neutral-400 font-inter">
+                  Please login to view your reviews
+                </p>
+              </div>
+              <Link
+                to="/login"
+                className="px-6 py-2.5 bg-neutral-900/30 hover:bg-neutral-900/50 text-neutral-300 hover:text-white rounded-lg transition-all duration-200 font-doto border border-neutral-800/50"
+              >
+                Login
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div className="min-h-screen bg-zinc-950">
@@ -108,10 +138,10 @@ export const Reviews = () => {
             
             <div className="bg-neutral-900/30 border border-neutral-800/50 rounded-lg p-6">
               <h1 className="text-2xl md:text-3xl font-bold text-white font-doto">
-                Movie Reviews
+                Your Reviews
               </h1>
               <p className="text-neutral-400 mt-2 font-inter">
-                All movie reviews in one place
+                Manage all your movie reviews
               </p>
             </div>
           </div>
@@ -213,28 +243,34 @@ export const Reviews = () => {
                       {new Date(review.createdAt).toLocaleDateString()}
                       {review.createdAt !== review.updatedAt && ' (edited)'}
                     </span>
-                    {user && user.id === review.user._id && (
-                      <div className="flex gap-4">
-                        <button
-                          onClick={() => handleEdit(review)}
-                          className="text-neutral-400 hover:text-white transition-colors font-doto"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(review._id)}
-                          className="text-red-400/70 hover:text-red-400 transition-colors font-doto"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() => handleEdit(review)}
+                        className="text-neutral-400 hover:text-white transition-colors font-doto"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(review._id)}
+                        className="text-red-400/70 hover:text-red-400 transition-colors font-doto"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="text-center py-12">
-                <p className="text-neutral-400 font-doto">No reviews found</p>
+              <div className="flex flex-col items-center justify-center gap-4 py-20">
+                <p className="text-neutral-400 text-lg font-doto">
+                  You haven't written any reviews yet
+                </p>
+                <Link
+                  to="/browse"
+                  className="px-6 py-2.5 bg-neutral-900/30 hover:bg-neutral-900/50 text-neutral-300 hover:text-white rounded-lg transition-all duration-200 font-doto border border-neutral-800/50"
+                >
+                  Browse Movies
+                </Link>
               </div>
             )}
           </div>
