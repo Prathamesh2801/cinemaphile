@@ -27,7 +27,7 @@ export const Reviews = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editedReview, setEditedReview] = useState("");
   const [editedRating, setEditedRating] = useState(0);
-  const { user, isAuthenticated } = useAuth();
+  const {  isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
