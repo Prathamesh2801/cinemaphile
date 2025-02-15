@@ -1,10 +1,11 @@
 import express from 'express';
-import { createReview, getMovieReviews, updateReview, deleteReview } from '../controllers/review.controller.js';
+import { createReview, getMovieReviews, updateReview, deleteReview, getAllReviews } from '../controllers/review.controller.js';
 import { auth } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // Public routes
+router.get('/', getAllReviews);
 router.get('/movie/:movieId', getMovieReviews);
 
 // Protected routes (require authentication)
