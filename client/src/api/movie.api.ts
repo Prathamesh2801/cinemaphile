@@ -48,3 +48,13 @@ export const getMovieDetails = async (id: string) => {
     throw error;
   }
 };
+
+export const getTopMovies = async () => {
+  try {
+    const response = await apiClient.get('/movies/top');
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch top movies:", error);
+    throw error;
+  }
+};

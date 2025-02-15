@@ -23,7 +23,7 @@ export const Bookmarks = () => {
   const [savedMovies, setSavedMovies] = useState<SavedMovie[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetchBookmarkedMovies = async () => {

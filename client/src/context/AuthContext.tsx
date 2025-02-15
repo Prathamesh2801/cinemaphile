@@ -31,7 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const checkAuth = async (token: string) => {
+  const checkAuth = async (_token: string) => {
     try {
       const response = await apiClient.get('/auth/me');
       setUser(response.data);

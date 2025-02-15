@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { LoadingScreen } from "../components/LoadingWave";
 import { ScrollShadow } from "../components/ScrollShadow";
 import { ArrowLeft } from "lucide-react";
+import { getTopMovies } from "../api/movie.api";
 
 interface Movie {
   imdbID: string;
@@ -22,11 +23,7 @@ export const Browse = () => {
   useEffect(() => {
     const fetchTopMovies = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/movies/top');
-        if (!response.ok) {
-          throw new Error('Failed to fetch movies');
-        }
-        const data = await response.json();
+        const data = await getTopMovies();
         setMovies(data);
       } catch (err) {
         setError('Failed to load movies');

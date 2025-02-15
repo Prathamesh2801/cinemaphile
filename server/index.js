@@ -65,6 +65,19 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/movies', movieRoutes);
 app.use('/api/users', userRoutes);
 
+// Handle production
+if (process.env.NODE_ENV === 'production') {
+  // Handle API 404
+  app.use('/api/*', (req, res) => {
+    res.status(404).json({ message: 'API endpoint not found' });
+  });
+
+  // Handle client-side routing
+  app.get('*', (req, res) => {
+    res.redirect(productionConfig.clientUrl);
+  });
+}
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
