@@ -1,14 +1,19 @@
 import { Review } from '../models/Review.js';
 
-// Get all reviews
+// Get logged-in user's reviews
 export const getAllReviews = async (req, res) => {
   try {
-    const reviews = await Review.find()
+    const userId = req.userId; // From auth middleware
+    if (!userId) {
+      return res.status(401).json({ message: 'Authentication required' });
+    }
+
+    const reviews = await Review.find({ user: userId })
       .populate('user', 'username')
       .sort({ createdAt: -1 });
     res.json(reviews);
   } catch (error) {
-    console.error('Get all reviews error:', error);
+    console.error('Get user reviews error:', error);
     res.status(500).json({ message: 'Error getting reviews' });
   }
 };
