@@ -9,7 +9,6 @@ import { MovieReviews } from "./MovieReviews";
 import toast from "react-hot-toast";
 import apiClient from "../api/apiClient";
 
-
 interface MovieProps {
   title: string;
   year: string;
@@ -64,23 +63,23 @@ export default function MovieContent() {
 
   const handleSave = async () => {
     if (!user) {
-      toast.error('Please login to bookmark movies');
+      toast.error("Please login to bookmark movies");
       return;
     }
 
     try {
       if (isSaved) {
         await apiClient.delete(`/users/bookmarks/${id}`);
-        toast.success('Removed from bookmarks');
+        toast.success("Removed from bookmarks");
         setIsSaved(false);
       } else {
-        await apiClient.post('/users/bookmarks', { movieId: id });
-        toast.success('Added to bookmarks');
+        await apiClient.post("/users/bookmarks", { movieId: id });
+        toast.success("Added to bookmarks");
         setIsSaved(true);
       }
     } catch (error) {
-      console.error('Error handling bookmark:', error);
-      toast.error('Failed to update bookmark');
+      console.error("Error handling bookmark:", error);
+      toast.error("Failed to update bookmark");
     }
   };
 
@@ -123,13 +122,13 @@ export default function MovieContent() {
       <div className="min-h-screen bg-neutral-950 text-neutral-100 font-inter mt-16">
         <div className="container mx-auto space-y-6">
           <div className="flex w-full items-center justify-between mb-20">
-          <button
+            <button
               onClick={() => window.history.back()}
               className="flex items-center gap-2 text-neutral-400 hover:text-neutral-100 transition-colors cursor-pointer"
               title="Go Back"
             >
               <ArrowLeft className="h-5 w-5" />
-              <span className="font-doto">Back</span>
+              <span className="font-semibold">Back</span>
             </button>
 
             <button
@@ -140,7 +139,9 @@ export default function MovieContent() {
               <span>
                 {isSaved ? <BookmarkCheck color="green" /> : <Bookmark />}
               </span>
-              <span className="text-sm font-medium">{isSaved ? "Saved" : "Save"}</span>
+              <span className="text-sm font-medium">
+                {isSaved ? "Saved" : "Save"}
+              </span>
             </button>
           </div>
 
@@ -156,15 +157,19 @@ export default function MovieContent() {
               </div>
               <div className="flex items-center justify-center gap-2 rounded-lg border border-neutral-800 p-4 bg-neutral-900/30">
                 <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                <span className="text-xl font-bold font-doto">{imdbRating}</span>
-                <span className="text-base text-neutral-400 font-doto">/10</span>
+                <span className="text-xl font-bold font-mono">
+                  {imdbRating}
+                </span>
+                <span className="text-base text-neutral-400 font-mono">
+                  /10
+                </span>
               </div>
             </div>
 
             <div className="space-y-6">
               <div className="space-y-6 bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
                 <div className="space-y-2">
-                  <h1 className="text-xl md:text-4xl font-bold tracking-tight font-doto">
+                  <h1 className="text-xl md:text-4xl font-bold tracking-tight">
                     {title} <span className="text-neutral-500">({year})</span>
                   </h1>
                   <div className="flex flex-wrap gap-2 text-sm text-neutral-400">
@@ -178,7 +183,7 @@ export default function MovieContent() {
                   {genre.map((g) => (
                     <span
                       key={g}
-                      className="rounded-full bg-neutral-800 px-3 py-1 text-sm font-medium text-neutral-600 hover:text-neutral-300 transition-all duration-200 cursor-pointer"
+                      className="rounded-full bg-neutral-800 px-3 py-1 text-sm font-medium text-neutral-600 hover:text-neutral-300 transition-all duration-200 cursor-pointer font-mono"
                     >
                       {g}
                     </span>
@@ -187,21 +192,25 @@ export default function MovieContent() {
               </div>
 
               <div className="bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
-                <h2 className="text-xl font-bold mb-4 font-doto text-neutral-100">Plot</h2>
+                <h2 className="text-xl font-bold mb-4 text-neutral-100">
+                  Plot
+                </h2>
                 <p className="text-neutral-300 leading-relaxed">{plot}</p>
               </div>
 
               <div className="bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
-                <h2 className="text-xl font-bold mb-4 font-doto text-neutral-100">Cast & Crew</h2>
+                <h2 className="text-xl font-bold mb-4 text-neutral-100">
+                  Cast & Crew
+                </h2>
                 <div className="grid gap-6 md:grid-cols-2">
                   <div>
-                    <h3 className="text-sm font-semibold text-neutral-400 font-doto mb-2">
+                    <h3 className="text-sm font-semibold text-neutral-400 mb-2">
                       Director
                     </h3>
                     <p className="text-neutral-100">{director}</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-neutral-400 font-doto mb-2">
+                    <h3 className="text-sm font-semibold text-neutral-400 mb-2">
                       Starring
                     </h3>
                     <p className="text-neutral-100">{actors}</p>

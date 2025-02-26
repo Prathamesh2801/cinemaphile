@@ -27,14 +27,18 @@ const UserMenu = () => {
       >
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full bg-neutral-800 flex items-center justify-center">
-            <span className="text-sm font-medium text-neutral-400">
+            <span className="text-sm font-medium text-neutral-400 font-mono">
               {user?.username.charAt(0).toUpperCase()}
             </span>
           </div>
-          <span className="font-doto text-sm md:text-base">{user?.username}</span>
+          <span className="font-semibold text-sm md:text-base">
+            {user?.username}
+          </span>
         </div>
         <ChevronDown
-          className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={`h-4 w-4 transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
         />
       </button>
 
@@ -45,7 +49,7 @@ const UserMenu = () => {
               logout();
               setIsOpen(false);
             }}
-            className="w-full px-4 py-2 text-left text-neutral-400 hover:text-red-400 hover:bg-neutral-800/20 font-doto transition-colors duration-200"
+            className="w-full px-4 py-2 text-left text-neutral-400 hover:text-red-400 hover:bg-neutral-800/20 font-semibold transition-colors duration-200"
           >
             Logout
           </button>
@@ -63,7 +67,7 @@ export const Navbar = () => {
       <div className="flex w-full items-center justify-between mb-8">
         <Link
           to="/"
-          className="font-doto group relative inline-block text-xl text-neutral-300 transition-colors hover:text-white md:text-3xl"
+          className="group relative inline-block text-xl text-neutral-300 transition-colors hover:text-white md:text-3xl font-semibold"
         >
           <span className="inline-block transition-transform duration-300 group-hover:-translate-y-1">
             Cinema
@@ -78,7 +82,7 @@ export const Navbar = () => {
           ) : (
             <Link
               to="/login"
-              className="rounded-lg bg-neutral-900/30 px-4 py-2 text-neutral-300 hover:text-white border border-neutral-800/50 transition-all duration-200 font-doto"
+              className="rounded-lg bg-neutral-900/30 px-4 py-2 text-neutral-300 hover:text-white border border-neutral-800/50 transition-all duration-200 font-semibold"
             >
               Login
             </Link>
@@ -90,45 +94,48 @@ export const Navbar = () => {
         <NavLink
           to="/browse"
           className={({ isActive }) =>
-            `relative px-3 py-2 font-doto text-sm md:text-base transition-all duration-200 ${
-              isActive 
-                ? "text-white" 
+            `relative px-3 py-2 text-sm md:text-base transition-all duration-200 ${
+              isActive
+                ? "text-white font-semibold"
                 : "text-neutral-400 hover:text-white"
             } after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:rounded-full after:transition-all after:duration-200 ${
               isActive
                 ? "after:bg-neutral-100 after:opacity-100"
                 : "after:bg-neutral-400 after:opacity-0 hover:after:opacity-30"
-            }`}
+            }`
+          }
         >
           Browse
         </NavLink>
         <NavLink
           to="/reviews"
           className={({ isActive }) =>
-            `relative px-3 py-2 font-doto text-sm md:text-base transition-all duration-200 ${
-              isActive 
-                ? "text-white" 
+            `relative px-3 py-2 text-sm md:text-base transition-all duration-200 ${
+              isActive
+                ? "text-white font-semibold"
                 : "text-neutral-400 hover:text-white"
             } after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:rounded-full after:transition-all after:duration-200 ${
               isActive
                 ? "after:bg-neutral-100 after:opacity-100"
                 : "after:bg-neutral-400 after:opacity-0 hover:after:opacity-30"
-            }`}
+            }`
+          }
         >
           Reviews
         </NavLink>
         <NavLink
           to="/bookmarks"
           className={({ isActive }) =>
-            `relative px-3 py-2 font-doto text-sm md:text-base transition-all duration-200 ${
-              isActive 
-                ? "text-white" 
+            `relative px-3 py-2 text-sm md:text-base transition-all duration-200 ${
+              isActive
+                ? "text-white font-semibold"
                 : "text-neutral-400 hover:text-white"
             } after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:rounded-full after:transition-all after:duration-200 ${
               isActive
                 ? "after:bg-neutral-100 after:opacity-100"
                 : "after:bg-neutral-400 after:opacity-0 hover:after:opacity-30"
-            }`}
+            }`
+          }
         >
           Bookmarks
         </NavLink>

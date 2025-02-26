@@ -26,8 +26,8 @@ export const Browse = () => {
         const data = await getTopMovies();
         setMovies(data);
       } catch (err) {
-        setError('Failed to load movies');
-        console.error('Error fetching movies:', err);
+        setError("Failed to load movies");
+        console.error("Error fetching movies:", err);
       } finally {
         setLoading(false);
       }
@@ -66,11 +66,11 @@ export const Browse = () => {
               title="Go Back"
             >
               <ArrowLeft className="h-5 w-5" />
-              <span className="font-doto">Back</span>
+              <span className="font-inter">Back</span>
             </button>
-            
+
             <div className="bg-neutral-900/30 border border-neutral-800/50 rounded-lg p-6">
-              <h1 className="text-2xl md:text-3xl font-bold text-white font-doto">
+              <h1 className="text-2xl md:text-3xl font-bold text-white font-inter">
                 Top Rated Movies
               </h1>
               <p className="text-neutral-400 mt-2 font-inter">
@@ -82,7 +82,7 @@ export const Browse = () => {
           {/* Grid Layout */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
             {movies.map((movie) => (
-              <div 
+              <div
                 key={movie.imdbID}
                 className="transform transition-all duration-300 hover:-translate-y-1"
               >
@@ -94,7 +94,7 @@ export const Browse = () => {
           {/* Empty State */}
           {movies.length === 0 && !loading && !error && (
             <div className="bg-neutral-900/30 border border-neutral-800/50 rounded-lg p-8 text-center">
-              <p className="text-neutral-400 font-doto">No movies found</p>
+              <p className="text-neutral-400 font-inter">No movies found</p>
             </div>
           )}
         </div>
