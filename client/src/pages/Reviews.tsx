@@ -6,6 +6,7 @@ import { Star, ArrowLeft } from "lucide-react";
 import apiClient from "../api/apiClient";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 interface Review {
   _id: string;
@@ -29,6 +30,8 @@ export const Reviews = () => {
   const [editedRating, setEditedRating] = useState(0);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [reviewToDeleteId, setReviewToDeleteId] = useState<string | null>(null);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -77,16 +80,30 @@ export const Reviews = () => {
     }
   };
 
-  const handleDelete = async (reviewId: string) => {
-    if (!window.confirm("Are you sure you want to delete this review?")) return;
+  const cancelDelete = () => {
+    setIsConfirmationModalOpen(false);
+    setReviewToDeleteId(null);
+  };
 
+
+  const handleDelete = async (id: string) => {
+    setReviewToDeleteId(id);
+    setIsConfirmationModalOpen(true);
+  };
+  const confirmDelete = async () => {
+    setIsConfirmationModalOpen(false);
     try {
-      await apiClient.delete(`/reviews/${reviewId}`);
-      setReviews(reviews.filter((rev) => rev._id !== reviewId));
+      await apiClient.delete(`/reviews/${reviewToDeleteId}`);
+      // Remove the deleted review from the reviews array
+      setReviews(reviews.filter((rev) => rev._id !== reviewToDeleteId));
       toast.success("Review deleted successfully");
-    } catch (error) {
-      console.error("Error deleting review:", error);
-      toast.error("Failed to delete review");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to delete review";
+      toast.error(errorMessage);
+      console.error("Review deletion error:", error);
+    } finally {
+      setReviewToDeleteId(null);
     }
   };
 
@@ -248,18 +265,18 @@ export const Reviews = () => {
                       {review.createdAt !== review.updatedAt && " (edited)"}
                     </span>
                     <div className="flex gap-4">
-                      <button
-                        onClick={() => handleEdit(review)}
-                        className="text-neutral-400 hover:text-white transition-colors font-inter"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(review._id)}
-                        className="text-red-400/70 hover:text-red-400 transition-colors font-inter"
-                      >
-                        Delete
-                      </button>
+                    <button
+                      onClick={() => handleEdit(review)}
+                      className="text-neutral-400 hover:text-white transition-colors font-inter p-2 border border-neutral-800/50 md:text-lg text-base cursor-pointer hover:bg-neutral-800/50 rounded"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(review._id)}
+                      className="text-red-400/70 hover:text-red-400 transition-colors font-inter p-2 border border-neutral-800/50 md:text-lg text-base cursor-pointer hover:bg-neutral-800/50 rounded"
+                    >
+                      Delete
+                    </button>
                     </div>
                   </div>
                 </div>
@@ -280,6 +297,13 @@ export const Reviews = () => {
           </div>
         </div>
       </div>
+      <ConfirmationModal
+        isOpen={isConfirmationModalOpen}
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+        message="Are you sure you want to delete this review?"
+      />
     </Layout>
+    
   );
 };
