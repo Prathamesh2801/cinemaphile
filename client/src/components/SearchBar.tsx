@@ -65,7 +65,7 @@ export const SearchBar: React.FC = () => {
       <div className="relative">
         <input
           type="text"
-          className="w-full appearance-none rounded-lg bg-neutral-900/30 border border-neutral-800/50 px-6 py-4 text-lg text-neutral-300 shadow-inner focus:outline-none focus:ring-1 focus:ring-neutral-700 transition-all duration-200"
+          className="w-full appearance-none rounded-lg bg-neutral-900/30 border border-neutral-800/50 px-6 py-4 text-lg text-neutral-300 shadow-inner focus:outline-none focus:ring-1 focus:ring-neutral-700 transition-all duration-200 font-doto"
           placeholder="Search movies..."
           value={query}
           onChange={handleInputChange}
@@ -117,7 +117,7 @@ export const SearchBar: React.FC = () => {
                   }}
                 />
                 <div className="flex flex-col">
-                  <span className="text-sm md:text-base font-medium">
+                  <span className="text-sm md:text-base font-medium font-doto">
                     {suggestion.Title}
                   </span>
                   <div className="flex items-center gap-2 mt-1">

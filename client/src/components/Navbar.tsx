@@ -23,7 +23,7 @@ const UserMenu = () => {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 rounded-lg bg-neutral-900/30 px-4 py-2 text-neutral-300 hover:text-white border border-neutral-800/50 transition-all duration-200"
+        className="flex items-center gap-2 rounded-lg bg-neutral-900/30 px-4 py-2 text-neutral-300 hover:text-white border border-neutral-800/50 transition-all duration-200 cursor-pointer"
       >
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full bg-neutral-800 flex items-center justify-center">
@@ -31,7 +31,7 @@ const UserMenu = () => {
               {user?.username.charAt(0).toUpperCase()}
             </span>
           </div>
-          <span className="font-semibold text-sm md:text-base">
+          <span className="font-semibold text-sm md:text-base font-doto">
             {user?.username}
           </span>
         </div>
@@ -67,7 +67,7 @@ export const Navbar = () => {
       <div className="flex w-full items-center justify-between mb-8">
         <Link
           to="/"
-          className="group relative inline-block text-xl text-neutral-300 transition-colors hover:text-white md:text-3xl font-semibold"
+          className="group relative inline-block text-xl text-neutral-300 transition-colors hover:text-white md:text-3xl font-semibold font-doto"
         >
           <span className="inline-block transition-transform duration-300 group-hover:-translate-y-1">
             Cinema

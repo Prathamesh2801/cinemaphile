@@ -85,7 +85,6 @@ export const Reviews = () => {
     setReviewToDeleteId(null);
   };
 
-
   const handleDelete = async (id: string) => {
     setReviewToDeleteId(id);
     setIsConfirmationModalOpen(true);
@@ -150,11 +149,11 @@ export const Reviews = () => {
               title="Go Back"
             >
               <ArrowLeft className="h-5 w-5" />
-              <span className="font-inter">Back</span>
+              <span className="font-doto">Back</span>
             </button>
 
             <div className="bg-neutral-900/30 border border-neutral-800/50 rounded-lg p-6">
-              <h1 className="text-2xl md:text-3xl font-bold text-white font-inter">
+              <h1 className="text-2xl md:text-3xl font-bold text-white font-doto">
                 Your Reviews
               </h1>
               <p className="text-neutral-400 mt-2 font-inter">
@@ -179,11 +178,11 @@ export const Reviews = () => {
                         </span>
                       </div>
                       <div className="space-y-1">
-                        <span className="font-inter text-neutral-300">
+                        <span className="font-doto text-neutral-300">
                           {review.user.username}
                         </span>
                         <p
-                          className="text-sm text-emerald-500 hover:text-emerald-400 cursor-pointer font-inter"
+                          className="text-sm text-emerald-500 hover:text-emerald-400 cursor-pointer font-doto"
                           onClick={() => navigate(`/details/${review.movieId}`)}
                         >
                           {review.movieTitle}
@@ -241,13 +240,13 @@ export const Reviews = () => {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleUpdate(review._id)}
-                          className="px-4 py-2 bg-neutral-800 text-neutral-200 rounded-lg hover:bg-neutral-700 transition-colors font-inter"
+                          className="px-4 py-2 bg-neutral-800 text-neutral-200 rounded-lg hover:bg-neutral-700 transition-colors font-doto"
                         >
                           Update
                         </button>
                         <button
                           onClick={() => setEditingId(null)}
-                          className="px-4 py-2 bg-red-900/20 text-red-400 rounded-lg hover:bg-red-900/30 transition-colors font-inter"
+                          className="px-4 py-2 bg-red-900/20 text-red-400 rounded-lg hover:bg-red-900/30 transition-colors font-doto"
                         >
                           Cancel
                         </button>
@@ -260,23 +259,23 @@ export const Reviews = () => {
                   )}
 
                   <div className="flex items-center justify-between text-sm pt-4 border-t border-neutral-800/50">
-                    <span className="text-neutral-500 font-inter">
+                    <span className="text-neutral-500 font-mono italic">
                       {new Date(review.createdAt).toLocaleDateString()}
                       {review.createdAt !== review.updatedAt && " (edited)"}
                     </span>
                     <div className="flex gap-4">
-                    <button
-                      onClick={() => handleEdit(review)}
-                      className="text-neutral-400 hover:text-white transition-colors font-inter p-2 border border-neutral-800/50 md:text-lg text-base cursor-pointer hover:bg-neutral-800/50 rounded"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(review._id)}
-                      className="text-red-400/70 hover:text-red-400 transition-colors font-inter p-2 border border-neutral-800/50 md:text-lg text-base cursor-pointer hover:bg-neutral-800/50 rounded"
-                    >
-                      Delete
-                    </button>
+                      <button
+                        onClick={() => handleEdit(review)}
+                        className="text-neutral-400 hover:text-white transition-colors font-doto p-2 border border-neutral-800/50 md:text-lg text-base cursor-pointer hover:bg-neutral-800/50 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(review._id)}
+                        className="text-red-400/70 hover:text-red-400 transition-colors font-doto p-2 border border-neutral-800/50 md:text-lg text-base cursor-pointer hover:bg-neutral-800/50 rounded"
+                      >
+                        Delete
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -304,6 +303,5 @@ export const Reviews = () => {
         message="Are you sure you want to delete this review?"
       />
     </Layout>
-    
   );
 };

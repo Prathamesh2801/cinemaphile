@@ -50,7 +50,7 @@ export const BrowseCards: React.FC<{ movie: MovieData }> = ({ movie }) => {
           >
             {" "}
             <div className="space-y-2">
-              <h3 className="text-lg font-bold text-white line-clamp-1">
+              <h3 className="text-lg font-bold text-white line-clamp- font-doto1">
                 {movie.Title}
               </h3>{" "}
               <div className="flex items-center justify-between">

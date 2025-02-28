@@ -157,7 +157,7 @@ export default function MovieContent() {
               </div>
               <div className="flex items-center justify-center gap-2 rounded-lg border border-neutral-800 p-4 bg-neutral-900/30">
                 <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                <span className="text-xl font-bold font-mono">
+                <span className="text-xl font-bold font-doto">
                   {imdbRating}
                 </span>
                 <span className="text-base text-neutral-400 font-mono">
@@ -169,7 +169,7 @@ export default function MovieContent() {
             <div className="space-y-6">
               <div className="space-y-6 bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
                 <div className="space-y-2">
-                  <h1 className="text-xl md:text-4xl font-bold tracking-tight">
+                  <h1 className="text-xl md:text-4xl font-bold tracking-tight font-doto">
                     {title} <span className="text-neutral-500">({year})</span>
                   </h1>
                   <div className="flex flex-wrap gap-2 text-sm text-neutral-400">
@@ -192,28 +192,28 @@ export default function MovieContent() {
               </div>
 
               <div className="bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
-                <h2 className="text-xl font-bold mb-4 text-neutral-100">
+                <h2 className="text-xl font-bold mb-4 text-neutral-100 font-doto">
                   Plot
                 </h2>
                 <p className="text-neutral-300 leading-relaxed">{plot}</p>
               </div>
 
               <div className="bg-neutral-900/30 rounded-lg p-6 border border-neutral-800/50">
-                <h2 className="text-xl font-bold mb-4 text-neutral-100">
+                <h2 className="text-xl font-bold mb-4 text-neutral-100 font-doto">
                   Cast & Crew
                 </h2>
                 <div className="grid gap-6 md:grid-cols-2">
                   <div>
-                    <h3 className="text-sm font-semibold text-neutral-400 mb-2">
+                    <h3 className="text-sm font-semibold text-neutral-400 mb-2 font-doto">
                       Director
                     </h3>
-                    <p className="text-neutral-100">{director}</p>
+                    <p className="text-neutral-100 font-inter">{director}</p>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-neutral-400 mb-2">
+                    <h3 className="text-sm font-semibold text-neutral-400 mb-2 font-doto">
                       Starring
                     </h3>
-                    <p className="text-neutral-100">{actors}</p>
+                    <p className="text-neutral-100 font-inter">{actors}</p>
                   </div>
                 </div>
               </div>

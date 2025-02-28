@@ -158,7 +158,7 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
                     {user?.username.charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <span className="font-inter text-neutral-300">
+                <span className="font-doto text-neutral-300">
                   {user?.username}
                 </span>
               </div>
@@ -198,7 +198,7 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 px-6 py-2.5 bg-transparent hover:bg-neutral-800 text-white rounded-lg transition-colors disabled:opacity-50 disabled:hover:bg-emerald-600 font-inter border-2 border-neutral-800 cursor-pointer"
+                  className="flex-1 px-6 py-2.5 bg-transparent hover:bg-neutral-800 text-white rounded-lg transition-colors disabled:opacity-50 disabled:hover:bg-emerald-600 font-doto border-2 border-neutral-800 cursor-pointer"
                 >
                   {isSubmitting
                     ? "Submitting..."
@@ -232,7 +232,7 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
         )}
 
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold font-inter mt-12 mb-8">Reviews</h2>
+          <h2 className="text-2xl font-bold font-doto mt-12 mb-8">Reviews</h2>
 
           {reviews.map((review) => (
             <div
@@ -246,7 +246,7 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
                       {review.user.username.charAt(0).toUpperCase()}
                     </span>
                   </div>
-                  <span className="font-inter text-neutral-300">
+                  <span className="font-doto text-neutral-300">
                     {review.user.username}
                   </span>
                 </div>
@@ -269,20 +269,20 @@ export const MovieReviews = ({ movieId, movieTitle }: MovieReviewsProps) => {
               </p>
 
               <div className="flex items-center justify-between text-sm pt-2 border-t border-neutral-800/50">
-                <span className="text-neutral-500 font-mono">
+                <span className="text-neutral-500 font-mono italic">
                   {new Date(review.createdAt).toLocaleDateString()}
                 </span>
                 {user && user.id === review.user._id && (
                   <div className="flex gap-4">
                     <button
                       onClick={() => handleEdit(review)}
-                      className="text-neutral-400 hover:text-white transition-colors font-inter p-2 border border-neutral-800/50 md:text-lg text-base cursor-pointer hover:bg-neutral-800/50 rounded"
+                      className="text-neutral-400 hover:text-white transition-colors font-doto p-2 border border-neutral-800/50 md:text-lg text-base cursor-pointer hover:bg-neutral-800/50 rounded"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(review._id)}
-                      className="text-red-400/70 hover:text-red-400 transition-colors font-inter p-2 border border-neutral-800/50 md:text-lg text-base cursor-pointer hover:bg-neutral-800/50 rounded"
+                      className="text-red-400/70 hover:text-red-400 transition-colors font-doto p-2 border border-neutral-800/50 md:text-lg text-base cursor-pointer hover:bg-neutral-800/50 rounded"
                     >
                       Delete
                     </button>

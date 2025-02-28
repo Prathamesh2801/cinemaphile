@@ -87,11 +87,11 @@ export const Bookmarks = () => {
               title="Go Back"
             >
               <ArrowLeft className="h-5 w-5" />
-              <span className="font-inter">Back</span>
+              <span className="font-doto">Back</span>
             </button>
 
             <div className="bg-neutral-900/30 border border-neutral-800/50 rounded-lg p-6">
-              <h1 className="text-2xl md:text-3xl font-bold text-white font-inter">
+              <h1 className="text-2xl md:text-3xl font-bold text-white font-doto">
                 Bookmarks
               </h1>
               <p className="text-neutral-400 mt-2 font-inter">
@@ -121,7 +121,7 @@ export const Bookmarks = () => {
                     />
 
                     <div className="flex flex-col flex-1 min-w-0">
-                      <h3 className="text-lg font-bold text-neutral-100 truncate font-inter group-hover:text-white transition-colors duration-200">
+                      <h3 className="text-lg font-bold text-neutral-100 truncate font-doto group-hover:text-white transition-colors duration-200">
                         {movie.Title}
                       </h3>
 
@@ -160,7 +160,7 @@ export const Bookmarks = () => {
                             );
                           }
                         }}
-                        className="mt-4 self-start px-3 py-1.5 text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-md transition-all duration-200 font-inter border-1 border-neutral-800 cursor-pointer"
+                        className="mt-4 self-start px-3 py-1.5 text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-md transition-all duration-200 font-doto border-1 border-neutral-800 cursor-pointer"
                       >
                         Remove
                       </button>

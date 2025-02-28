@@ -66,11 +66,11 @@ export const Browse = () => {
               title="Go Back"
             >
               <ArrowLeft className="h-5 w-5" />
-              <span className="font-inter">Back</span>
+              <span className="font-doto">Back</span>
             </button>
 
             <div className="bg-neutral-900/30 border border-neutral-800/50 rounded-lg p-6">
-              <h1 className="text-2xl md:text-3xl font-bold text-white font-inter">
+              <h1 className="text-2xl md:text-3xl font-bold text-white font-doto">
                 Top Rated Movies
               </h1>
               <p className="text-neutral-400 mt-2 font-inter">

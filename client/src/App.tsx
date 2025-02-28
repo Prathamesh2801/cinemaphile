@@ -18,28 +18,28 @@ export const App = () => {
           toastOptions={{
             success: {
               style: {
-                background: '#09090b',
-                color: '#10b981',
+                background: "#09090b",
+                color: "#10b981",
               },
               iconTheme: {
-                primary: '#10b981',
-                secondary: '#09090b',
+                primary: "#10b981",
+                secondary: "#09090b",
               },
             },
             error: {
               style: {
-                background: '#09090b',
-                color: '#FF6961',
+                background: "#09090b",
+                color: "#FF6961",
               },
               iconTheme: {
-                primary: '#09090b',
-                secondary: '#F44336',
+                primary: "#09090b",
+                secondary: "#F44336",
               },
             },
             loading: {
               style: {
-                background: '#424242',
-                color: '#FFFFFF',
+                background: "#424242",
+                color: "#FFFFFF",
               },
             },
           }}
